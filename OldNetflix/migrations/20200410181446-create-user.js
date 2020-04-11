@@ -30,6 +30,15 @@ module.exports = {
       photo: {
         type: Sequelize.STRING
       },
+      photo: {
+        type: Sequelize.STRING
+      },
+      creditCard: {
+        type: Sequelize.INTEGER
+      },
+      CityId: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

@@ -73,7 +73,7 @@ const UserController = {
     },
 
     // GET INFO
-    getInfo(req, res){
+    async getInfo(req, res){
         res.send(req.user)
     },
 

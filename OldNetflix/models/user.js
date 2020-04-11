@@ -7,11 +7,14 @@ module.exports = (sequelize, DataTypes) => {
     role: DataTypes.STRING,
     password: DataTypes.STRING,
     address: DataTypes.STRING,
-    photo: DataTypes.STRING
+    photo: DataTypes.STRING,
+    creditCard: DataTypes.INTEGER,
+    cityId: DataTypes.INTEGER
   }, {});
   User.associate = function(models) {
     User.hasMany(models.Token),
-    User.hasMany(models.Order)
+    User.hasMany(models.Order),
+    User.belongsTo(models.City)
   };
   return User;
 };

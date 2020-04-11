@@ -1,4 +1,4 @@
-const { User, Sequelize } = require('../models');
+const { Movie, Sequelize } = require('../models');
 const { Op } = Sequelize;
 
 const UserController = {
