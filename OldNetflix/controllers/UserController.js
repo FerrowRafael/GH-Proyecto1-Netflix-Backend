@@ -1,4 +1,4 @@
-const { User, Token, Sequelize } = require('../models');
+const { User, City, Token, Sequelize } = require('../models');
 const { Op } = Sequelize;
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -79,7 +79,11 @@ const UserController = {
 
     // GET ALL USERS
     UsersAll(req, res){
-        User.findAll()
+        User.findAll({
+            include: [{
+            model: City,
+            attributes: { exclude: ['createdAt', 'updatedAt'] },
+        }],})
             .then(data => {
                 res.status(200);
                 res.json(data);
@@ -93,7 +97,8 @@ const UserController = {
     // GET USER BY ID
     UsersById(req, res){
         let { id } = req.params;
-        User.findAll({ where: { id } })
+        User.findAll(
+            { where: { id } })
             .then(data => {
                 res.status(200);
                 res.json(data);

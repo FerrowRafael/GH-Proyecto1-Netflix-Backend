@@ -1,10 +1,11 @@
-const { City, Sequelize } = require('../models');
+const { City, User, Sequelize } = require('../models');
 const { Op } = Sequelize;
 
 const CityController = {
     // GET ALL CITIES
     citiesAll(req, res){
-        City.findAll()
+        City.findAll({include:[User]})
+        
             .then(data => {
                 res.status(200);
                 res.json(data);

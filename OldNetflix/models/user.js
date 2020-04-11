@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   User.associate = function(models) {
     User.hasMany(models.Token),
-    User.hasMany(models.Order),
+    User.belongsToMany(models.Order),
     User.belongsTo(models.City)
   };
   return User;

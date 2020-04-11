@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     dateRent: DataTypes.INTEGER,
     dateArrival: DataTypes.INTEGER,
     daysRent: DataTypes.INTEGER,
-    price: DataTypes.INTEGER,
+    price: DataTypes.FLOAT,
     UserId: DataTypes.INTEGER,
     MovieId: DataTypes.INTEGER,
   }, {});
