@@ -78,7 +78,7 @@ const UserController = {
     },
 
     // GET ALL USERS
-    getUsersAll(req, res){
+    UsersAll(req, res){
         User.findAll()
             .then(data => {
                 res.status(200);
@@ -91,7 +91,7 @@ const UserController = {
     },
 
     // GET USER BY ID
-    getUsersById(req, res){
+    UsersById(req, res){
         let { id } = req.params;
         User.findAll({ where: { id } })
             .then(data => {
@@ -105,7 +105,7 @@ const UserController = {
     },
 
     // GET USER BY NAME
-    getUsersByName(req, res){
+    UsersByName(req, res){
         let { firstname } = req.params;
         User.findAll({ where: { firstname } })
             .then(data => {
@@ -119,7 +119,7 @@ const UserController = {
     },
 
     // MODIFIED USER
-    modifiedUser(req, res){
+    UserModified(req, res){
         let { id } = req.params;
         let { username, password, email, role } = req.body;
         User.update(
@@ -137,7 +137,7 @@ const UserController = {
     },
 
     // DELETE USER
-    deleteUser(req, res){
+    UserDelete(req, res){
         let { id } = req.params;
         User.destroy({ where: { id } })
         .then(data => {
