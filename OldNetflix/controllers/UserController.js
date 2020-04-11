@@ -56,15 +56,9 @@ const UserController = {
         }
     },
 
-    // GET INFO
-    getInfo(req, res){
-        res.send(req.user)
-    },
-
     // LOGOUT
     async logout(req, res){
-        try {
-            
+        try {    
             await Token.destroy({
                 where:{ [Op.and]:[
                     {UserId:req.user.id},
@@ -76,6 +70,11 @@ const UserController = {
             console.log(error)
             res.status(500).send({message:'hubo un problema al tratar de desconectarte'})
         }
+    },
+
+    // GET INFO
+    getInfo(req, res){
+        res.send(req.user)
     },
 
     // GET ALL USERS

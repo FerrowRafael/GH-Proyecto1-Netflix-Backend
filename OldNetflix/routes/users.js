@@ -5,7 +5,7 @@ const { authentication } =require('../middleware/authentication')
 
 router.post('/register', UserController.register);
 router.post('/login', UserController.login);
-router.get('/logout', authentication, UserController.logout);
+router.get('/logout', authentication, UserController.logout); //*Arreglar
 router.get('/info', authentication, UserController.getInfo); //*Arreglar
 router.get('/', UserController.getUsersAll);
 router.get('/:id', UserController.getUsersById);
