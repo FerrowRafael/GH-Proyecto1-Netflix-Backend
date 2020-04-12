@@ -1,7 +1,7 @@
 const axios = require('axios');
 const { sequelize } = require('../models/index');
-for (let i = 0; i < 501; i++) {
-    axios.get('https://api.themoviedb.org/3/movie/popular?api_key=210d6a5dd3f16419ce349c9f1b200d6d&language=es-ES&')
+for (let page = 0; page < 101; page++) {
+    axios.get('https://api.themoviedb.org/3/movie/popular?api_key=210d6a5dd3f16419ce349c9f1b200d6d&language=es-ES&page=${page}')
         .then(res => {
             const peliculas = res.data.results;
             for (const pelicula of peliculas) {
@@ -19,9 +19,13 @@ for (let i = 0; i < 501; i++) {
             '${pelicula.vote_average}',
             '${pelicula.overview}',
             '${pelicula.release_date}'
-            );`)
-            }
+            );`
+            )}
         })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+          })
 }
 
 //Arrancar con node Movie.js estando en la carpeta seeders
