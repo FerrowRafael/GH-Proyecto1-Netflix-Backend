@@ -8,7 +8,6 @@ const UserController = {
     async register(req, res) {
         
         try {
-            
             req.body.role = "user"; //Ponemos en la db por defecto user para que cualquiera no pueda ponerse Admin
             const hash = await bcrypt.hash(req.body.password, 9);
             req.body.password = hash;
@@ -23,7 +22,6 @@ const UserController = {
                 message: 'Ha habido un problema al tratar de registrar el usuario'
             })
         }
-
     },
 
     // LOGIN
