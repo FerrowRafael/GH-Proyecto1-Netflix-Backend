@@ -8,6 +8,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      idMovie: {
+        type: Sequelize.INTEGER
+      },
       popularity: {
         type: Sequelize.INTEGER
       },
