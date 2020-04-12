@@ -13,8 +13,10 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   User.associate = function(models) {
     User.hasMany(models.Token),
-    User.belongsToMany(models.Order),
-    User.belongsTo(models.City)
+    User.belongsTo(models.City),
+    User.belongsToMany(models.Movie, {
+      through: models.Order,
+    })
   };
   return User;
 };

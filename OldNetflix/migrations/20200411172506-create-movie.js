@@ -1,52 +1,57 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Users', {
+    return queryInterface.createTable('Movies', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      firstName: {
-        type: Sequelize.STRING
-      },
-      lastName: {
-        type: Sequelize.STRING
-      },
-      email: {
-        unique: true,
-        type: Sequelize.STRING
-      },
-      role: {
-        type: Sequelize.STRING
-      },
-      password: {
-        type: Sequelize.STRING
-      },
-      address: {
-        type: Sequelize.STRING
-      },
-      photo: {
-        type: Sequelize.STRING
-      },
-      creditCard: {
+      popularity: {
         type: Sequelize.INTEGER
       },
-      CityId: {
+      vote_count: {
         type: Sequelize.INTEGER
+      },
+      poster_path: {
+        type: Sequelize.STRING
+      },
+      backdrop_path: {
+        type: Sequelize.STRING
+      },
+      original_language: {
+        type: Sequelize.STRING
+      },
+      original_title: {
+        type: Sequelize.STRING
+      },
+      genre_ids: {
+        type: Sequelize.STRING
+      },
+      title: {
+        type: Sequelize.STRING
+      },
+      vote_average: {
+        type: Sequelize.DECIMAL
+      },
+      overview: {
+        type: Sequelize.STRING
+      },
+      release_date: {
+        type: Sequelize.STRING
       },
       createdAt: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.DATE
       },
       updatedAt: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.DATE
       }
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Users');
+    return queryInterface.dropTable('Movies');
   }
 };
