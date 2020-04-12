@@ -5,11 +5,29 @@ const UserController = {
 
     // ALL MOVIES
     moviesAll(req, res){
-
+        Movie.findAll()
+            .then(data => {
+                res.status(200);
+                res.json(data);
+            })
+            .catch(err => {
+                res.status(500);
+                res.json(`"error": ${err}`);
+            })
     },
 
     moviesById(req, res){
-
+        let { id } = req.params;
+        Movie.findAll(
+            { where: { id } })
+            .then(data => {
+                res.status(200);
+                res.json(data);
+            })
+            .catch(err => {
+                res.status(500);
+                res.json(`"error": ${err}`);
+            });
     },
 
     moviesByGenre(req, res){
@@ -17,7 +35,16 @@ const UserController = {
     },
 
     moviesByTitle(req, res){
-
+        let { title } = req.params;
+        Movie.findAll({ where: { title} })
+            .then(data => {
+                res.status(200);
+                res.json(data);
+            })
+            .catch(err => {
+                res.status(500);
+                res.json(`"error": ${err}`);
+            });
     },
 
     // POPULAR
