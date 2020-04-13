@@ -5,11 +5,12 @@ module.exports = (sequelize, DataTypes) => {
     dateArrival: DataTypes.INTEGER,
     daysRent: DataTypes.INTEGER,
     price: DataTypes.FLOAT,
+    status: DataTypes.STRING,
     UserId: DataTypes.INTEGER,
     MovieId: DataTypes.INTEGER,
   }, {});
   Order.associate = function(models) {
-    Order.belongsTo(models.User)
+
   };
   return Order;
 };

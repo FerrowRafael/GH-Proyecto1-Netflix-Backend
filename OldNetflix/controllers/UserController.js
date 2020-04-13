@@ -95,8 +95,13 @@ const UserController = {
     // GET USER BY ID
     UsersById(req, res){
         let { id } = req.params;
-        User.findAll(
-            { where: { id } })
+        User.findOne({ 
+            where: { id },
+            include: [{model: City,
+                attributes: { exclude: ['createdAt', 'updatedAt']}
+            }], 
+            
+        })
             .then(data => {
                 res.status(200);
                 res.json(data);
@@ -104,13 +109,19 @@ const UserController = {
             .catch(err => {
                 res.status(500);
                 res.json(`"error": ${err}`);
-            });
+            })
     },
 
     // GET USER BY NAME
     UsersByName(req, res){
         let { firstname } = req.params;
-        User.findAll({ where: { firstname } })
+        User.findOne({ 
+            where: { firstname },
+            include: [{model: City,
+                attributes: { exclude: ['createdAt', 'updatedAt']}
+            }], 
+            
+        })
             .then(data => {
                 res.status(200);
                 res.json(data);
@@ -124,9 +135,9 @@ const UserController = {
     // MODIFIED USER
     UserModified(req, res){
         let { id } = req.params;
-        let { username, password, email, role } = req.body;
+        let { firstName, lastName, email, role, password, address, photo, creditCard, CityId} = req.body;
         User.update(
-            { username, password, email, role },
+            { firstName, lastName, email, role, password, address, photo, creditCard, CityId },
             { where: { id } }
         )
         .then(data => {
@@ -152,7 +163,6 @@ const UserController = {
             res.json(`"error": ${err}`);
         });
     }
-
 }
 
 module.exports = UserController;

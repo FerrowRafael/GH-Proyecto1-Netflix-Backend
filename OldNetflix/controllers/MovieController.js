@@ -1,11 +1,15 @@
-const { Movie, Sequelize } = require('../models');
+const { Movie, Genre, Sequelize } = require('../models');
 const { Op } = Sequelize;
 
 const UserController = {
 
     // ALL MOVIES
     moviesAll(req, res){
-        Movie.findAll()
+        Movie.findAll({
+            include: [{
+            model: Genre,
+            attributes: { exclude: ['createdAt', 'updatedAt'] },
+        }],})
             .then(data => {
                 res.status(200);
                 res.json(data);
@@ -18,8 +22,14 @@ const UserController = {
 
     moviesById(req, res){
         let { id } = req.params;
-        Movie.findAll(
-            { where: { id } })
+        Movie.findOne(
+            { where: { id },           
+                include: [{
+                model: Genre,
+                attributes: { exclude: ['createdAt', 'updatedAt'] },
+            }],}
+            )
+            
             .then(data => {
                 res.status(200);
                 res.json(data);
@@ -31,12 +41,27 @@ const UserController = {
     },
 
     moviesByGenre(req, res){
-
+        // let { title } = req.params;
+        // Genre.findAll({ where: { title} })
+        //     .then(data => {
+        //         res.status(200);
+        //         res.json(data);
+        //     })
+        //     .catch(err => {
+        //         res.status(500);
+        //         res.json(`"error": ${err}`);
+        //     });
     },
 
     moviesByTitle(req, res){
         let { title } = req.params;
-        Movie.findAll({ where: { title} })
+        Movie.findOne(
+            { where: { title },           
+                include: [{
+                model: Genre,
+                attributes: { exclude: ['createdAt', 'updatedAt'] },
+            }],}
+            )
             .then(data => {
                 res.status(200);
                 res.json(data);

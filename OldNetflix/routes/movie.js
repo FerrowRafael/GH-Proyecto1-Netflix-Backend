@@ -5,7 +5,7 @@ const MovieController =require('../controllers/MovieController');
 // ALL MOVIES
 router.get('/', MovieController.moviesAll); //Filtro todas peliculas
 router.get('/:id', MovieController.moviesById); //Filtro todas peliculas por Id
-router.get('/genre/:genre', MovieController.moviesByGenre); //Filtro todas peliculas por Genero
+router.get('/genre/:genre', MovieController.moviesByGenre); //Filtro todas peliculas por Genero *
 router.get('/title/:title', MovieController.moviesByTitle); //Filtro todas peliculas por Titulo
 
 // POPULAR

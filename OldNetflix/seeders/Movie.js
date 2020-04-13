@@ -1,7 +1,7 @@
 const axios = require('axios');
-const { sequelize } = require('../models/index');
-for (let page = 0; page < 101; page++) {
-    axios.get('https://api.themoviedb.org/3/movie/popular?api_key=f1cbc5636aa2f2d3b7c9f1c1ca7c91de&language=es-ES&page=${page}')
+const { sequelize } = require('../models/');
+for (let page = 1; page < 101; page++) {
+    axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=f1cbc5636aa2f2d3b7c9f1c1ca7c91de&language=es-ES&page=${page}`)
         .then(res => {
             const peliculas = res.data.results;
             for (const pelicula of peliculas) {

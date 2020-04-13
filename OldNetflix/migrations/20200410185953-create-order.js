@@ -17,6 +17,9 @@ module.exports = {
       daysRent: {
         type: Sequelize.INTEGER
       },
+      status: {
+        type: Sequelize.STRING
+      },
       price: {
         type: Sequelize.FLOAT
       },
