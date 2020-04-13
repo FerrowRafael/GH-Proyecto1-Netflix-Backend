@@ -8,7 +8,7 @@ axios.get('https://api.themoviedb.org/3/genre/movie/list?api_key=f1cbc5636aa2f2d
         
         for (const genero of generos) {
             
-            sequelize.query(`INSERT INTO genres (idGenre, name)
+            sequelize.query(`INSERT INTO genres (id, name)
         VALUES (
             '${genero.id}', 
             '${genero.name}');`)
