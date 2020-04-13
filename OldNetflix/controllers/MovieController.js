@@ -29,8 +29,8 @@ const UserController = {
                 include: [{
                 model: Genre,
                 attributes: { exclude: ['createdAt', 'updatedAt'] },
-            }],}
-            )
+            }],
+        })
             
             .then(data => {
                 res.status(200);
@@ -40,19 +40,6 @@ const UserController = {
                 res.status(500);
                 res.json(`"error": ${err}`);
             });
-    },
-
-    moviesByGenre(req, res){
-        // let { title } = req.params;
-        // Genre.findAll({ where: { title} })
-        //     .then(data => {
-        //         res.status(200);
-        //         res.json(data);
-        //     })
-        //     .catch(err => {
-        //         res.status(500);
-        //         res.json(`"error": ${err}`);
-        //     });
     },
 
     moviesByTitle(req, res){
@@ -98,36 +85,40 @@ const UserController = {
 
     // Popular por Genero
     popularByGenre(req, res){
-        // Movie.findAll({
-            // attributes: { exclude: ['createdAt', 'updatedAt'] },
-            // where: 
-        //         {vote_count: {
-        //             [Op.gt]: 10000
-        //           }
-        //         }
-        //     }
-        // )
-        // .then(data => {
-        //     res.status(200);
-        //     res.json(data);
-        // })
-        // .catch(err => {
-        //     res.status(500);
-        //     res.json(`"error": ${err}`);
-        // });
+        let { name} = req.params;
+        Genre.findOne({
+            where: { name },  
+            attributes: { exclude: ['createdAt', 'updatedAt'] },         
+            include: [{
+                model: Movie,
+                where: 
+                {vote_count: {
+                    [Op.gt]: 10000
+                  }
+                },
+                attributes: { exclude: ['createdAt', 'updatedAt'] },
+            }],
+        })   
+            .then(data => {
+                res.status(200);
+                res.json(data);
+            })
+            .catch(err => {
+                res.status(500);
+                res.json(`"error": ${err}`);
+            });
     },
 
     popularByTitle(req, res){  //*Meterle que filtre nombres no completos y por nombre original
         let { title } = req.params;
         Movie.findAll({
             attributes: { exclude: ['createdAt', 'updatedAt'] },
-            where: { 
-                [Op.and]: [
+            where: {[
+                Op.and]: [
                     { title },
                     {vote_count: {[Op.gt]: 10000}}
                 ]}
-            }
-        )
+        })
         .then(data => {
             res.status(200);
             res.json(data);
@@ -143,9 +134,7 @@ const UserController = {
         Movie.findAll({
             attributes: { exclude: ['createdAt', 'updatedAt'] },
             where: 
-                {release_date: 2019-06-21  
-                  
-                }
+                {release_date: 2019-06-21}
             }
         )
         .then(data => {
@@ -159,7 +148,28 @@ const UserController = {
     },
 
     premiereByGenre(req, res){
-
+        let { name} = req.params;
+        Genre.findOne({
+            where: { name },  
+            attributes: { exclude: ['createdAt', 'updatedAt'] },         
+            include: [{
+                model: Movie,
+                // where: 
+                // {vote_count: {
+                //     [Op.gt]: 10000
+                //   }
+                // },
+                attributes: { exclude: ['createdAt', 'updatedAt'] },
+            }],
+        })   
+            .then(data => {
+                res.status(200);
+                res.json(data);
+            })
+            .catch(err => {
+                res.status(500);
+                res.json(`"error": ${err}`);
+            });
     },
 
     premiereByTitle(req, res){

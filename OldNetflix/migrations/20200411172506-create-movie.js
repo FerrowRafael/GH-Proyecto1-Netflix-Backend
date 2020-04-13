@@ -8,9 +8,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      idMovie: {
-        type: Sequelize.INTEGER
-      },
       popularity: {
         type: Sequelize.INTEGER
       },
@@ -27,9 +24,6 @@ module.exports = {
         type: Sequelize.STRING
       },
       original_title: {
-        type: Sequelize.STRING
-      },
-      genre_ids: {
         type: Sequelize.STRING
       },
       title: {
