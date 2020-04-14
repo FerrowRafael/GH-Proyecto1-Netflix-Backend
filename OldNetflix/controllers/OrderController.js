@@ -18,10 +18,10 @@ const OrderController = {
         let { id } = req.params;
         Order.findOne({ 
             where: { id },  
-            include: 
-                [Movie ,
-                User ]
-              ,
+            include:[
+                Movie ,
+                User 
+            ],
                 attributes: { exclude: ['createdAt', 'updatedAt']}
         })
             .then(data => {
