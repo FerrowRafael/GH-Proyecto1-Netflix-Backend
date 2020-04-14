@@ -26,9 +26,6 @@ module.exports = {
       original_title: {
         type: Sequelize.STRING
       },
-      genre_ids: {
-        type: Sequelize.STRING
-      },
       title: {
         type: Sequelize.STRING
       },
@@ -39,7 +36,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       release_date: {
-        type: Sequelize.STRING
+        type: Sequelize.DATE
       },
       createdAt: {
         allowNull: true,

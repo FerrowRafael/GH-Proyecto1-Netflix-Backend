@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     address: DataTypes.STRING,
     photo: DataTypes.STRING,
     creditCard: DataTypes.INTEGER,
-    cityId: DataTypes.INTEGER
+    CityId: DataTypes.INTEGER
   }, {});
   User.associate = function(models) {
     User.hasMany(models.Token),

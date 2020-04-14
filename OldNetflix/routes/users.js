@@ -7,6 +7,8 @@ router.post('/register', UserController.register);
 router.post('/login', UserController.login);
 router.get('/logout', authentication, UserController.logout); //*Arreglar
 router.get('/info', authentication, UserController.getInfo); //*Arreglar
+
+// Search
 router.get('/', UserController.UsersAll);
 router.get('/:id', UserController.UsersById);
 router.get('/user/:firstname', UserController.UsersByName);

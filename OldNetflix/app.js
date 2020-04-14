@@ -24,11 +24,13 @@ const usersRouter = require('./routes/users');
 const moviesRouter = require('./routes/movie');
 // const ordersRouter = require('./routes/order');
 const citiesRouter = require('./routes/city');
+const genresRouter = require('./routes/genre');
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/movies', moviesRouter);
 // app.use('/orders', ordersRouter);
 app.use('/cities', citiesRouter);
+app.use('/genres', genresRouter);
 
 module.exports = app;
