@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     GenreId: DataTypes.INTEGER
   }, {});
   MovieGenre.associate = function(models) {
-
+    
   };
   return MovieGenre;
 };

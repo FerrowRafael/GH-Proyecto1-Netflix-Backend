@@ -9,10 +9,10 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       dateRent: {
-        type: Sequelize.INTEGER
+        type: Sequelize.DATE
       },
       dateArrival: {
-        type: Sequelize.INTEGER
+        type: Sequelize.DATE
       },
       daysRent: {
         type: Sequelize.INTEGER
