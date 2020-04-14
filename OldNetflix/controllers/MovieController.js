@@ -85,7 +85,7 @@ const UserController = {
 
     // Popular por Genero
     popularByGenre(req, res){
-        let { name} = req.params;
+        let { name } = req.params;
         Genre.findOne({
             where: { name },  
             attributes: { exclude: ['createdAt', 'updatedAt'] },         
