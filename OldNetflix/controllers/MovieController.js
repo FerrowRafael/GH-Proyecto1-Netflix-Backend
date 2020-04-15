@@ -181,6 +181,21 @@ const UserController = {
 
     },
 
+
+    async movieAdd(req, res){
+        try{
+            Movie.create({...req.body})
+            .then(movie=>{
+               movie.addGenre(req.body.GenreId)
+               res.send(movie)
+            })
+        }
+        catch{
+            res.status(500).send({ message: 'Ha habido un error al crear la pelicula' })
+        }
+        
+        
+    },
 }
 
 module.exports = UserController;

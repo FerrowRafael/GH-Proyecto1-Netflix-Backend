@@ -5,13 +5,13 @@ const { authentication } =require('../middleware/authentication')
 
 router.post('/register', UserController.register);
 router.post('/login', UserController.login);
-router.get('/logout', authentication, UserController.logout); //*Arreglar
+router.get('/logout', authentication, UserController.logout); 
 router.get('/info', authentication, UserController.getInfo); //*Arreglar
 
 // Search
 router.get('/', UserController.UsersAll);
 router.get('/:id', UserController.UsersById);
-router.get('/user/:firstname', UserController.UsersByName);
+router.get('/user/:username', UserController.UsersByName);
 router.put('/:id', UserController.UserModified);
 router.delete('/:id', UserController.UserDelete);
 

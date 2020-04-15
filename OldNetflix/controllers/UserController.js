@@ -2,22 +2,51 @@ const { User, City, Token, Sequelize } = require('../models');
 const { Op } = Sequelize;
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { isValidPassword } = require('../services/validations');
+const {
+    hashPassword,
+    comparePassword,
+    createJWT,
+    decodeJWT,
+
+ } = require('../services/authorization');
 
 const UserController = {
     // REGISTER
-    async register(req, res) {
-        
+    async register(req, res) { 
         try {
             req.body.role = "user"; //Ponemos en la db por defecto user para que cualquiera no pueda ponerse Admin
-            const hash = await bcrypt.hash(req.body.password, 9);
-            req.body.password = hash;
+            isValidPassword(req.body.password);
+            req.body.password = await hashPassword(req.body.password);
             const user = await User.create(req.body);
             res.status(201).send({
-                user,
+                user: user,
                 message: 'Usuario creado satisfactoriamente'
             });
-        } catch (error) {
+        } 
+        
+        catch (error) {
             console.log(error)
+
+            // if (error.message === 'invalidPasswordError') {
+            //     return res.status(400).json({
+            //       message: 'Contraseña incorrecta',
+            //       error: error,
+            //     });
+            //   }
+            //   if (error.name === 'SequelizeUniqueConstraintError') {
+            //     return res.status(400).json({
+            //       message: 'Registro invalido',
+            //       error: error.errors[0].message,
+            //     });
+            //   }
+            //   if (error.name === 'SequelizeValidationError') {
+            //     return res.status(400).json({
+            //       message: 'Registro invalido',
+            //       error: error.errors[0].message,
+            //     });
+            //   }
+
             res.status(500).send({
                 message: 'Ha habido un problema al tratar de registrar el usuario'
             })
@@ -28,10 +57,12 @@ const UserController = {
     async login(req, res) {
         try {
             // Comprobamos que existe ese usuario a partir del email
-            const user = await User.findOne({where:{
+            const user = await User.findOne({
+                where:{
                 email: req.body.email
                 } 
             });
+
             if (!user) {
                 return res.status(401).send({  message: 'Email o contraseña incorrectas' });
             }
@@ -41,16 +72,21 @@ const UserController = {
             if (!isMatch) {
                 return res.status(401).send({ message: 'Email o contraseña incorrectas' });
             }
+            const data = {
+                username: user.username,
+                email: user.email,
+                id: user.id,
+            };
 
-            // Creamos un token con el codigo 'secretitos'
-            const token = jwt.sign({id:user.id},'secretitos');
+            // Creamos un token 
+            const token = await createJWT(data);
             await Token.create({ token, UserId:user.id });
-            res.send({ message: 'Bienvenid@ ' + user.firstname, user,token });
+            res.send({ message: 'Bienvenid@ ' + user.username, user, token });
+
 
         } catch (error) {
             console.log(error)
             res.status(500).send({ message: 'Ha habido un problema al tratar de conectarse' })
-
         }
     },
 
@@ -114,13 +150,12 @@ const UserController = {
 
     // GET USER BY NAME
     UsersByName(req, res){
-        let { firstname } = req.params;
+        let { username } = req.params;
         User.findOne({ 
-            where: { firstname },
+            where: { username },
             include: [{model: City,
                 attributes: { exclude: ['createdAt', 'updatedAt']}
-            }], 
-            
+            }],     
         })
             .then(data => {
                 res.status(200);
@@ -128,6 +163,7 @@ const UserController = {
             })
             .catch(err => {
                 res.status(500);
+                res.send("No existe ningun usuario con ese nombre")
                 res.json(`"error": ${err}`);
             });
     },
@@ -135,9 +171,9 @@ const UserController = {
     // MODIFIED USER
     UserModified(req, res){
         let { id } = req.params;
-        let { firstName, lastName, email, role, password, address, photo, creditCard, CityId} = req.body;
+        let { username, firstName, lastName, email, role, password, address, photo, creditCard, CityId} = req.body;
         User.update(
-            { firstName, lastName, email, role, password, address, photo, creditCard, CityId },
+            { username, firstName, lastName, email, role, password, address, photo, creditCard, CityId },
             { where: { id } }
         )
         .then(data => {

@@ -20,4 +20,7 @@ router.get('/premiere/title/:title', MovieController.premiereByTitle); //Filtro 
 // ACTOR
 router.get('/actor', MovieController.actorAll); //Filtro todas actor
 
+
+router.post('/', MovieController.movieAdd); //Crear pelicula
+
 module.exports = router;

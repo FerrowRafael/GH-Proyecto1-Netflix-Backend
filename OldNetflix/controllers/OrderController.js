@@ -4,9 +4,9 @@ const { Op } = Sequelize;
 const OrderController = {
     ordersAll(req, res){
         Order.findAll()
-            .then(order => {
+            .then(data => {
                 res.status(200);
-                res.json(order);
+                res.json(data);
             })
             .catch(err => {
                 res.status(500);
