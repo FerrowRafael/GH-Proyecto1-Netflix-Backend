@@ -170,15 +170,28 @@ const UserController = {
 
     // MODIFIED USER
     UserModified(req, res){
+        let body = req.body;
         let { id } = req.params;
-        let { username, firstName, lastName, email, role, password, address, photo, creditCard, CityId} = req.body;
-        User.update(
-            { username, firstName, lastName, email, role, password, address, photo, creditCard, CityId },
-            { where: { id } }
+        User.update({ 
+            username: body.username, 
+            firstName: body.firstName,
+            lastName: body.lastName,
+            email: body.email,
+            password: body.password, 
+            address: body.address, 
+            photo: body.photo, 
+            creditCard: body.creditCard, 
+            CityId: body.CityId 
+        },
+            { where: 
+                { id } 
+            }
         )
         .then(data => {
             res.status(200);
+
             res.send({message: 'Usuario modificado satisfactoriamente'});
+            
         })
         .catch(err => {
             res.status(500);
@@ -193,6 +206,7 @@ const UserController = {
         .then(data => {
             res.status(200);
             res.send({message: 'Usuario eliminado satisfactoriamente'});
+            res.json(data)
         })
         .catch(err => {
             res.status(500);
