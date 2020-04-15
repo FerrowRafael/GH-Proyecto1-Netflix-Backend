@@ -1,5 +1,6 @@
 const { Movie, Genre, Sequelize } = require('../models');
 const { Op } = Sequelize;
+const moment = require('moment');
 
 const UserController = {
 
@@ -133,8 +134,10 @@ const UserController = {
     premiereAll(req, res){
         Movie.findAll({
             attributes: { exclude: ['createdAt', 'updatedAt'] },
-            where: 
-                {release_date: 2019-06-21}
+            where: {
+                release_date: {
+                    [Op.between]: [moment().subtract(3, 'months'), moment().format()],
+                }}
             }
         )
         .then(data => {

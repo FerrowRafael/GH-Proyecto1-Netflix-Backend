@@ -1,5 +1,6 @@
-const { Order, User, City,Movie, Genre, Sequelize } = require('../models');
+const { Order, User, City, Movie, Genre, Sequelize } = require('../models');
 const { Op } = Sequelize;
+const moment = require('moment'); //Libreria para crear fechas
 
 const OrderController = {
     ordersAll(req, res){
@@ -41,8 +42,8 @@ const OrderController = {
     // CREAR UN PEDIDO
     orderCreate(req, res){
         Order.create({
-            dateRent: req.body.dateRent,
-            dateArrival: req.body.dateArrival,
+            dateRent: moment().format(),
+            dateArrival: moment().add(2, 'days'),
             daysRent:req.body.daysRent,
             status: "pending",
             price:req.body.price,
@@ -86,7 +87,7 @@ const OrderController = {
 
     },
 
-    ordersAll(req, res){
+    ordersDelete(req, res){
 
     },
 }
