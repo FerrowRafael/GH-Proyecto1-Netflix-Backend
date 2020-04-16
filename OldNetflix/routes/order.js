@@ -4,15 +4,14 @@ const OrderController =require('../controllers/OrderController');
 
 
 // ADMINISTRADOR
-router.get('/', OrderController.ordersAll); //Filtro todos pedidos de todos los clientes
-router.get('/order=:id', OrderController.orderById); //Filtro de un pedido por ID
-// router.get('/email=:email', OrderController.orderByEmail); //Filtro todos los pedidos de un cliente por Correo?
-
+router.get('/', OrderController.OrdersAll); //Filtro todos pedidos de todos los clientes
+router.get('/order=:id', OrderController.OrderById); //Filtro de un pedido por ID
+router.put('/user=:id', OrderController.OrderModify); //Modificacion Pedido
+router.delete('/user=:id', OrderController.OrderDelete); //Eliminacion Pedido
 
 // CLIENTE
-router.post('/user', OrderController.orderCreate); //Creacion Pedido
-router.get('/user=:id', OrderController.ordersAllUser); //Filtro todos pedidos de un cliente
-// router.put('/user=:id', OrderController.orderModify); //Creacion Pedido
+router.get('/user=:id', OrderController.OrdersAllUser); //Filtro todos pedidos de un cliente
+router.post('/user', OrderController.OrderCreate); //Creacion Pedido
 
 
 module.exports = router;

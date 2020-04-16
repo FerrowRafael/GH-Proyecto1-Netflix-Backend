@@ -22,12 +22,13 @@ const UserController = {
             })
     },
 
+    // Filtro peliculas por ID
     moviesById(req, res){
         let { id } = req.params;
         Movie.findOne({
+            where: { id },
             attributes: { exclude: ['createdAt', 'updatedAt'] },
-            where: { id },           
-                include: [{
+            include: [{
                 model: Genre,
                 attributes: { exclude: ['createdAt', 'updatedAt'] },
             }],
@@ -48,7 +49,7 @@ const UserController = {
         Movie.findOne({ 
             attributes: { exclude: ['createdAt', 'updatedAt'] },
             where: { title },           
-                include: [{
+            include: [{
                 model: Genre,
                 attributes: { exclude: ['createdAt', 'updatedAt'] },
             }],}
@@ -88,8 +89,7 @@ const UserController = {
     popularByGenre(req, res){
         let { name } = req.params;
         Genre.findOne({
-            where: { name },  
-            attributes: { exclude: ['createdAt', 'updatedAt'] },         
+            where: { name },
             include: [{
                 model: Movie,
                 where: 
@@ -98,8 +98,8 @@ const UserController = {
                   }
                 },
                 attributes: { exclude: ['createdAt', 'updatedAt'] },
-            }],
-        })   
+            }]
+        })         
             .then(data => {
                 res.status(200);
                 res.json(data);
@@ -110,7 +110,7 @@ const UserController = {
             });
     },
 
-    popularByTitle(req, res){  //*Meterle que filtre nombres no completos y por nombre original
+    popularByTitle(req, res){  //* Meterle que filtre nombres no completos y por nombre original
         let { title } = req.params;
         Movie.findAll({
             attributes: { exclude: ['createdAt', 'updatedAt'] },
@@ -151,40 +151,52 @@ const UserController = {
     },
 
     premiereByGenre(req, res){
-        let { name} = req.params;
+        let { name } = req.params;
         Genre.findOne({
-            where: { name },  
-            attributes: { exclude: ['createdAt', 'updatedAt'] },         
+            where: { name },
+            attributes: { exclude: ['createdAt', 'updatedAt'] },
             include: [{
                 model: Movie,
-                // where: 
-                // {vote_count: {
-                //     [Op.gt]: 10000
-                //   }
-                // },
-                attributes: { exclude: ['createdAt', 'updatedAt'] },
-            }],
-        })   
-            .then(data => {
-                res.status(200);
-                res.json(data);
-            })
-            .catch(err => {
-                res.status(500);
-                res.json(`"error": ${err}`);
-            });
+            where: {
+                release_date: {
+                    [Op.between]: [moment().subtract(3, 'months'), moment().format()],
+                }}
+            }]
+        })
+        .then(data => {
+            res.status(200);
+            res.json(data);
+        })
+        .catch(err => {
+            res.status(500);
+            res.json(`"error": ${err}`);
+        });
     },
 
     premiereByTitle(req, res){
-
+        let { title } = req.params;
+        Genre.findOne({
+            where: { title },
+            attributes: { exclude: ['createdAt', 'updatedAt'] },
+            include: [{
+                model: Movie,
+            where: {
+                release_date: {
+                    [Op.between]: [moment().subtract(3, 'months'), moment().format()],
+                }}
+            }]
+        })
+        .then(data => {
+            res.status(200);
+            res.json(data);
+        })
+        .catch(err => {
+            res.status(500);
+            res.json(`"error": ${err}`);
+        });
     },
 
-    // ACTOR
-    actorAll(req, res){
-
-    },
-
-
+    // CREATE MOVIE
     async movieAdd(req, res){
         try{
             Movie.create({...req.body})
@@ -195,9 +207,12 @@ const UserController = {
         }
         catch{
             res.status(500).send({ message: 'Ha habido un error al crear la pelicula' })
-        }
-        
-        
+        }    
+    },
+
+    // ACTOR
+    actorAll(req, res){
+
     },
 }
 

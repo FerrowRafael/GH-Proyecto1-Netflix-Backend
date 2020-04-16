@@ -13,9 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     release_date: DataTypes.DATE
   }, {});
   Movie.associate = function(models) {
-    Movie.belongsToMany(models.User, {
-      through: models.Order,
-    }),
+    Movie.hasMany(models.Order),
     Movie.belongsToMany(models.Genre, {
       through: models.MovieGenre,
     })

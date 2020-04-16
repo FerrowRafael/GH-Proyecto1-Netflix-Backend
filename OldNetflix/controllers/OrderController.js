@@ -3,7 +3,9 @@ const { Op } = Sequelize;
 const moment = require('moment'); //Libreria para crear fechas
 
 const OrderController = {
-    ordersAll(req, res){
+
+    // TODOS LOS PEDIDOS
+    OrdersAll(req, res){
         Order.findAll()
             .then(data => {
                 res.status(200);
@@ -15,7 +17,8 @@ const OrderController = {
             })
     },
 
-    orderById(req, res){
+    // PEDIDO POR ID
+    OrderById(req, res){
         let { id } = req.params;
         Order.findOne({ 
             where: { id },  
@@ -35,12 +38,8 @@ const OrderController = {
             })
     },
 
-    orderByEmail(req, res){
-
-    },
-
     // CREAR UN PEDIDO
-    orderCreate(req, res){
+    OrderCreate(req, res){
         Order.create({
             dateRent: moment().format(),
             dateArrival: moment().add(2, 'days'),
@@ -53,19 +52,10 @@ const OrderController = {
         .then(order=>{
             res.send(order);
         })
-
-
-        // .then(item => {
-        //     dateArrival.setDate(dateArrival.getDate() + ((item) ? item.deliverDays : 1));
-        //     return dateArrival;
-        //   })
-        //   .catch(err => {
-        //     return res.status(500).json({ message: `Date Arrival error: ${err}` });
-        //   });
     },
 
     // BUSCAR TODOS LOS PEDIDOS DE UN USUARIO POR ID
-    ordersAllUser(req, res){
+    OrdersAllUser(req, res){
         let { id } = req.params;
         User.findOne({ 
             where: { id },  
@@ -83,13 +73,50 @@ const OrderController = {
             })
     },
 
-    orderModify(req, res){
+    // MODIFY ORDER
+    OrderModify(req, res){
+        let body = req.body;
+        let { id } = req.params;
+        Order.update({ 
+            daysRent: body.daysRent,
+            status: "pending",
+            price: body.price,
+            UserId: body.UserId, //UserId(tiene que venir por un middleware/autentication)
+            MovieId: body.MovieId
+        },
+            { where: 
+                { id } 
+            }
+        )
+        .then(data => {
+            res.status(200);
 
+            res.send({message: 'Pedido modificado satisfactoriamente'});
+            
+        })
+        .catch(err => {
+            res.status(500);
+            res.json(`"error": ${err}`);
+        });
     },
 
-    ordersDelete(req, res){
-
+    // DELETE ORDER
+    OrderDelete(req, res){
+        let { id } = req.params;
+        Order.destroy({ where: { id } })
+        .then(data => {
+            res.status(200);
+            res.send({message: 'Pedido eliminado satisfactoriamente'});
+            res.json(data)
+        })
+        .catch(err => {
+            res.status(500);
+            res.json(`"error": ${err}`);
+        });
     },
+
+  
+    
 }
 
 module.exports = OrderController;

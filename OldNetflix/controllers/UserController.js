@@ -1,4 +1,4 @@
-const { User, City, Token, Sequelize } = require('../models');
+const { User, City, Order, Movie, Token, Sequelize } = require('../models');
 const { Op } = Sequelize;
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -133,10 +133,9 @@ const UserController = {
         let { id } = req.params;
         User.findOne({ 
             where: { id },
-            include: [{model: City,
-                attributes: { exclude: ['createdAt', 'updatedAt']}
-            }], 
-            
+            // include: [{model: City,
+            //     attributes: { exclude: ['createdAt', 'updatedAt']}
+            // }],     
         })
             .then(data => {
                 res.status(200);
@@ -179,8 +178,7 @@ const UserController = {
             email: body.email,
             password: body.password, 
             address: body.address, 
-            photo: body.photo, 
-            creditCard: body.creditCard, 
+            imageURL: body.imageURL, 
             CityId: body.CityId 
         },
             { where: 
@@ -189,9 +187,7 @@ const UserController = {
         )
         .then(data => {
             res.status(200);
-
-            res.send({message: 'Usuario modificado satisfactoriamente'});
-            
+            res.send({message: 'Usuario modificado satisfactoriamente'});   
         })
         .catch(err => {
             res.status(500);
@@ -212,7 +208,74 @@ const UserController = {
             res.status(500);
             res.json(`"error": ${err}`);
         });
-    }
+    },
+
+
+    // PEDIDOS DE UN USUARIO POR ID
+    UsersOrdersById(req, res){
+        let { id } = req.params;
+        User.findOne({ 
+            where: { id },  
+            include: [{
+                model: Order,
+                attributes: { exclude: ['createdAt', 'updatedAt']},
+                include: [{
+                    model: Movie
+                }]
+            }],
+                attributes: { exclude: ['createdAt', 'updatedAt']}
+        })
+            .then(data => {
+                res.status(200);
+                res.json(data);
+            })
+            .catch(err => {
+                res.status(500);
+                res.json(`"error": ${err}`);
+            })
+    },
+
+    UserOrderDates(req,res){
+        let { id } = req.params;
+        User.findOne({
+            where: { id }, 
+            attributes:['id','username'],
+            include: [{model: Order,
+                attributes: ['id', 'dateRent', 'dateArrival', 'daysRent']
+            }],
+        })
+        .then(data => {
+            res.status(200);
+            res.json(data);
+        })
+        .catch(err => {
+            res.status(500);
+            res.json(`"error": ${err}`);
+        })
+    },
+
+    // BUSQUEDA PEDIDO POR EMAIL
+    OrderByEmail(req, res){
+        let { email } = req.params;
+        User.findOne({ 
+            where: { email },  
+            include:[{
+                model: Order,
+                include:[
+                    Movie]
+            }],
+                attributes: { exclude: ['createdAt', 'updatedAt']}
+        })
+            .then(data => {
+                res.status(200);
+                res.json(data);
+            })
+            .catch(err => {
+                res.status(500);
+                res.json(`"error": ${err}`);
+            })
+    },
+
 }
 
 module.exports = UserController;

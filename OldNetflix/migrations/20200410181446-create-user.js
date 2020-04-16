@@ -31,11 +31,8 @@ module.exports = {
       address: {
         type: Sequelize.STRING
       },
-      photo: {
+      imageURL: {
         type: Sequelize.STRING
-      },
-      creditCard: {
-        type: Sequelize.INTEGER
       },
       CityId: {
         type: Sequelize.INTEGER

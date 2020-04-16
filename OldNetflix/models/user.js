@@ -8,16 +8,13 @@ module.exports = (sequelize, DataTypes) => {
     role: DataTypes.STRING,
     password: DataTypes.STRING,
     address: DataTypes.STRING,
-    photo: DataTypes.STRING,
-    creditCard: DataTypes.INTEGER,
+    imageURL: DataTypes.STRING,
     CityId: DataTypes.INTEGER
   }, {});
   User.associate = function(models) {
     User.hasMany(models.Token),
     User.belongsTo(models.City),
-    User.belongsToMany(models.Movie, {
-      through: models.Order,
-    })
+    User.hasMany(models.Order)
   };
   return User;
 };
