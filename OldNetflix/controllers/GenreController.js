@@ -2,7 +2,9 @@ const { Genre, Movie, Sequelize } = require('../models');
 const { Op } = Sequelize;
 
 const GenreController = {
-    genresAll(req, res){
+
+    // TODOS LOS GENEROS
+    GenresAll(req, res){
         Genre.findAll()
         .then(data => {
             res.status(200);
@@ -14,7 +16,8 @@ const GenreController = {
         })
     },
 
-    genresById(req, res){
+    // FILTRO GENERO POR ID (CON PELICULAS)
+    GenresById(req, res){
         let { id } = req.params;
         Genre.findOne({
             attributes: { exclude: ['createdAt', 'updatedAt'] },
@@ -34,7 +37,8 @@ const GenreController = {
             });
     },
 
-    genresByName(req, res){
+    // FILTRO GENERO POR NOMBRE (CON PELICULAS)
+    GenresByName(req, res){
         let { name } = req.params;
         Genre.findOne({
             attributes: { exclude: ['createdAt', 'updatedAt'] },
@@ -44,7 +48,6 @@ const GenreController = {
                 attributes: { exclude: ['createdAt', 'updatedAt'] },
             }],
         })
-            
             .then(data => {
                 res.status(200);
                 res.json(data);
