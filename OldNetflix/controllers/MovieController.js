@@ -42,15 +42,15 @@ const UserController = {
     },
 
     moviesByTitle(req, res){
-        let { title } = req.params;
-        Movie.findOne({ 
+        Movie.findAll({ 
             attributes: { exclude: ['createdAt', 'updatedAt'] },
-            where: { title },           
-            include: [{
-                model: [Genre, Actors],
-                attributes: { exclude: ['createdAt', 'updatedAt'] },
-            }],}
-            )
+            where: {
+                title: {
+                    [Op.like]: '%'+ req.params.title +'%'
+                }
+            },         
+            include: [Genre, Actors]
+        })
             .then(data => {
                 res.status(200);
                 res.json(data);
