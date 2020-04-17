@@ -1,4 +1,4 @@
-const { Movie, Genre, Sequelize } = require('../models');
+const { Movie, Genre, Actors, Sequelize } = require('../models');
 const { Op } = Sequelize;
 const moment = require('moment');
 
@@ -8,10 +8,9 @@ const UserController = {
     moviesAll(req, res){
         Movie.findAll({
             attributes: { exclude: ['createdAt', 'updatedAt'] },
-            include: [{
-            model: Genre,
+            include: [Genre, Actors],
             attributes: { exclude: ['createdAt', 'updatedAt'] },
-        }],})
+        })
             .then(data => {
                 res.status(200);
                 res.json(data);
@@ -28,10 +27,8 @@ const UserController = {
         Movie.findOne({
             where: { id },
             attributes: { exclude: ['createdAt', 'updatedAt'] },
-            include: [{
-                model: Genre,
-                attributes: { exclude: ['createdAt', 'updatedAt'] },
-            }],
+            include: [Genre, Actors],
+            attributes: { exclude: ['createdAt', 'updatedAt'] },
         })
             
             .then(data => {
@@ -50,7 +47,7 @@ const UserController = {
             attributes: { exclude: ['createdAt', 'updatedAt'] },
             where: { title },           
             include: [{
-                model: Genre,
+                model: [Genre, Actors],
                 attributes: { exclude: ['createdAt', 'updatedAt'] },
             }],}
             )
@@ -64,15 +61,16 @@ const UserController = {
             });
     },
 
-    // POPULAR
+    // POPULAR ALL
     popularAll(req, res){
         Movie.findAll({
-            attributes: { exclude: ['createdAt', 'updatedAt'] },
             where: 
                 {vote_count: {
                     [Op.gt]: 10000
-                  }
-                }
+                }},
+            attributes: { exclude: ['createdAt', 'updatedAt'] },
+            include: [Genre, Actors],
+            attributes: { exclude: ['createdAt', 'updatedAt'] },
             }
         )
         .then(data => {
@@ -85,7 +83,7 @@ const UserController = {
         });
     },
 
-    // Popular por Genero
+    // POPULAR BY GENRE
     popularByGenre(req, res){
         let { name } = req.params;
         Genre.findOne({
@@ -110,15 +108,17 @@ const UserController = {
             });
     },
 
+    // POPULAR BY TITLE **
     popularByTitle(req, res){  //* Meterle que filtre nombres no completos y por nombre original
         let { title } = req.params;
         Movie.findAll({
-            attributes: { exclude: ['createdAt', 'updatedAt'] },
             where: {[
                 Op.and]: [
                     { title },
-                    {vote_count: {[Op.gt]: 10000}}
-                ]}
+                    { vote_count: {[Op.gt]: 10000}}
+                ]},
+            attributes: { exclude: ['createdAt', 'updatedAt'] },
+            include: [Genre, Actors],
         })
         .then(data => {
             res.status(200);
@@ -130,14 +130,15 @@ const UserController = {
         });
     },
 
-    // PREMIERE
+    // PREMIERE ALL
     premiereAll(req, res){
         Movie.findAll({
-            attributes: { exclude: ['createdAt', 'updatedAt'] },
             where: {
                 release_date: {
                     [Op.between]: [moment().subtract(3, 'months'), moment().format()],
-                }}
+                }},
+            include: Genre,
+            attributes: { exclude: ['createdAt', 'updatedAt'] },
             }
         )
         .then(data => {
@@ -150,6 +151,7 @@ const UserController = {
         });
     },
 
+    // PREMIERE BY GENRE
     premiereByGenre(req, res){
         let { name } = req.params;
         Genre.findOne({
@@ -157,10 +159,11 @@ const UserController = {
             attributes: { exclude: ['createdAt', 'updatedAt'] },
             include: [{
                 model: Movie,
-            where: {
-                release_date: {
-                    [Op.between]: [moment().subtract(3, 'months'), moment().format()],
-                }}
+                where: {
+                    release_date: {
+                        [Op.between]: [moment().subtract(3, 'months'), moment().format()],
+                    }},
+                
             }]
         })
         .then(data => {
@@ -173,17 +176,18 @@ const UserController = {
         });
     },
 
+    // PREMIERE BY TITLE **
     premiereByTitle(req, res){
         let { title } = req.params;
         Genre.findOne({
             where: { title },
             attributes: { exclude: ['createdAt', 'updatedAt'] },
             include: [{
-                model: Movie,
-            where: {
-                release_date: {
-                    [Op.between]: [moment().subtract(3, 'months'), moment().format()],
-                }}
+                model: Actors, Movie,
+                where: {
+                    release_date: {
+                        [Op.between]: [moment().subtract(3, 'months'), moment().format()],
+                    }}
             }]
         })
         .then(data => {

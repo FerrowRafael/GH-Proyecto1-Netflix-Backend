@@ -15,7 +15,7 @@ const UserController = {
     // REGISTER
     async register(req, res) { 
         try {
-            req.body.role = "user"; //Ponemos en la db por defecto user para que cualquiera no pueda ponerse Admin
+            req.body.role = "user   "; //Ponemos en la db por defecto user para que cualquiera no pueda ponerse Admin
             isValidPassword(req.body.password);
             req.body.password = await hashPassword(req.body.password);
             const user = await User.create(req.body);

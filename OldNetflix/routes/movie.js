@@ -10,11 +10,12 @@ router.get('/title=:title', MovieController.moviesByTitle); //Filtro todas pelic
 // POPULAR
 router.get('/popular', MovieController.popularAll); //Filtro todas populares
 router.get('/popular/genre=:name', MovieController.popularByGenre); //Filtro todas populares por Genero
+// router.get('/popular/title=:title', MovieController.popularByTitle); //Filtro todas populares por Genero
 
 // PREMIERE
 router.get('/premiere', MovieController.premiereAll); //Filtro todas premiere
 router.get('/premiere/genre=:name', MovieController.premiereByGenre); //Filtro todas premiere segun genero
-
+// router.get('/premiere/title=:title', MovieController.premiereByTitle); //Filtro todas populares por Genero
 
 // ACTOR
 router.get('/actor', MovieController.actorAll); //Filtro todas actor

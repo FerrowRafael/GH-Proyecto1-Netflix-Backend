@@ -20,4 +20,6 @@ router.get('/order=:id', UserController.UsersOrdersById); //Todos los datos, usu
 router.get('/orderDate=:id', UserController.UserOrderDates); //Fechas pedidos por usuario
 router.get('/order/email=:email', UserController.OrderByEmail); //Busqueda pedidos por email usuario
 
+
+
 module.exports = router;
