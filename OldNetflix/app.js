@@ -25,6 +25,8 @@ const moviesRouter = require('./routes/movie');
 const ordersRouter = require('./routes/order');
 const citiesRouter = require('./routes/city');
 const genresRouter = require('./routes/genre');
+const searchRouter = require('./routes/search');
+const actorsRouter = require('./routes/actor');
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -32,5 +34,7 @@ app.use('/movies', moviesRouter);
 app.use('/orders', ordersRouter);
 app.use('/cities', citiesRouter);
 app.use('/genres', genresRouter);
+app.use('/search', searchRouter);
+app.use('/actors', actorsRouter);
 
 module.exports = app;
