@@ -36,10 +36,14 @@ const ActorController = {
     },
 
     ActorByName(req, res){
-        let { name } = req.params;
         Actors.findOne({ 
             attributes: { exclude: ['createdAt', 'updatedAt'] },
-            where: { name },           
+            where: {
+                name: 
+                {
+                    [Op.like]: '%'+ req.params.name +'%'
+                }
+            },               
             include: [{
                 model: Movie,
                 attributes: { exclude: ['createdAt', 'updatedAt'] },

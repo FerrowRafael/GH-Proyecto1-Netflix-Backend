@@ -53,9 +53,9 @@ const UserController = {
             include: [Genre, Actors],
             attributes: { exclude: ['createdAt', 'updatedAt'] },   
         })
-            .then(data => {
+            .then(title => {
                 res.status(200);
-                res.json(data);
+                res.json(title);
             })
             .catch(err => {
                 res.status(500);
@@ -63,8 +63,8 @@ const UserController = {
             });
     },
 
-    // MOVIE BY MOVIE TITLE
-    MoviesByTitle(req, res){
+    // MOVIE BY MOVIE TITLE AND ACTOR
+    MoviesYActorByTitle(req, res){
         Movie.findAll({})
     },
 

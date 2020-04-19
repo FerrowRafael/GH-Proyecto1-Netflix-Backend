@@ -3,7 +3,7 @@ const { Op } = Sequelize;
 
 const GenreController = {
 
-    // TODOS LOS GENEROS
+    // GENRES ALL
     GenresAll(req, res){
         Genre.findAll()
         .then(data => {
