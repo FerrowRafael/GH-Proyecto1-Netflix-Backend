@@ -3,24 +3,22 @@ const router = express.Router();
 const MovieController =require('../controllers/MovieController');
 
 // ALL MOVIES
-router.get('/', MovieController.moviesAll); //Filtro todas peliculas
-router.get('/id=:id', MovieController.moviesById); //Filtro todas peliculas por Id
-router.get('/title=:title', MovieController.moviesByTitle); //Filtro todas peliculas por Titulo
+router.get('/', MovieController.MoviesAll); // MOVIES ALL
+router.get('/id=:id', MovieController.MoviesById); // MOVIES BY MOVIE ID
+router.get('/title=:title', MovieController.MoviesByTitle); // MOVIE BY MOVIE TITLE
 
 // POPULAR
-router.get('/popular', MovieController.popularAll); //Filtro todas populares
-router.get('/popular/genre=:name', MovieController.popularByGenre); //Filtro todas populares por Genero
-// router.get('/popular/title=:title', MovieController.popularByTitle); //Filtro todas populares por Genero
+router.get('/popular', MovieController.MoviesPopularAll); // MOVIES POPULAR ALL
+router.get('/popular/genre=:name', MovieController.MoviesPopularByGenre); // MOVIES POPULAR BY GENRE NAME
+// router.get('/popular/title=:title', MovieController.MoviesPopularByTitle); // MOVIES POPULAR BY TITLE NAME **
 
 // PREMIERE
-router.get('/premiere', MovieController.premiereAll); //Filtro todas premiere
-router.get('/premiere/genre=:name', MovieController.premiereByGenre); //Filtro todas premiere segun genero
-// router.get('/premiere/title=:title', MovieController.premiereByTitle); //Filtro todas populares por Genero
+router.get('/premiere', MovieController.MoviesPremiereAll); // MOVIES PREMIERE ALL
+router.get('/premiere/genre=:name', MovieController.MoviesPremiereByGenre); // MOVIES PREMIERE BY GENRE NAME
+// router.get('/premiere/title=:title', MovieController.premiereByTitle); // MOVIES PREMIERE BY TITLE NAME **
 
-// ACTOR
-router.get('/actor', MovieController.actorAll); //Filtro todas actor
-
-
-router.post('/', MovieController.movieAdd); //Crear pelicula
+router.post('/', MovieController.MovieAdd); // MOVIE CREATE (falta añadir id y generos en tabla intermedia)
+router.put('/id=:id', MovieController.MovieModify); // MOVIE MODIFY
+router.delete('/id=:id', MovieController.MovieDelete); // MOVIE DELETE
 
 module.exports = router;

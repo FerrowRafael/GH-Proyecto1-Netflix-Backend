@@ -177,8 +177,6 @@ const UserController = {
             });
     },
 
-    
-
     // MODIFIED USER
     UserModified(req, res){
         let body = req.body;
@@ -228,13 +226,30 @@ const UserController = {
 
     // ALL ONE USER ORDERS BY ID
     UsersOrdersAll(req, res){
-
+        User.findAll({ 
+            include: [{
+                model: Order,
+                include: [{
+                    model: Movie
+                }],
+                attributes: { exclude: ['createdAt', 'updatedAt']} 
+            }],
+            attributes: { exclude: ['createdAt', 'updatedAt']}
+        })
+            .then(data => {
+                res.status(200);
+                res.json(data);
+            })
+            .catch(err => {
+                res.status(500);
+                res.json(`"error": ${err}`);
+            })
     },
 
     // PEDIDOS DE UN USUARIO POR ID
-    UsersOrdersById(req, res){
+    UsersOrdersByUserId(req, res){
         let { id } = req.params;
-        User.findOne({ 
+        User.findAll({ 
             where: { id },  
             include: [{
                 model: Order,
@@ -255,7 +270,8 @@ const UserController = {
             })
     },
 
-    UserOrderDates(req,res){
+    //4 ORDER BY ORDER DATE ¿?
+    UserByOrderDates(req,res){
         let { id } = req.params;
         User.findOne({
             where: { id }, 

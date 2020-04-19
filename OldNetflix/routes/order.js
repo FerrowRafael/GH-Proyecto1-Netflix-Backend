@@ -10,7 +10,7 @@ router.put('/order=:id', OrderController.OrderModify); //6 ORDER MODIFY
 router.delete('/order=:id', OrderController.OrderDelete); //7 ORDER DELETE
 
 router.get('/order=:id', OrderController.OrderById); //2 ORDER BY ORDER ID
-router.get('/order/user=:id', OrderController.OrdersByUserID); //2 ORDERS BY USER ID (Hay otra version mejor en USERS)
+router.get('/order/user=:id', OrderController.OrdersByUserId); //8.5 ORDERS BY USER ID (Hay otra version mejor en USERS)
 
 
 

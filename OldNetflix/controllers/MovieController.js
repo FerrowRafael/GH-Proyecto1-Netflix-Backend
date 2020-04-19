@@ -5,7 +5,7 @@ const moment = require('moment');
 const UserController = {
 
     // ALL MOVIES
-    moviesAll(req, res){
+    MoviesAll(req, res){
         Movie.findAll({
             attributes: { exclude: ['createdAt', 'updatedAt'] },
             include: [Genre, Actors],
@@ -21,14 +21,13 @@ const UserController = {
             })
     },
 
-    // Filtro peliculas por ID
-    moviesById(req, res){
+    // MOVIES BY MOVIE ID
+    MoviesById(req, res){
         let { id } = req.params;
         Movie.findOne({
             where: { id },
-            attributes: { exclude: ['createdAt', 'updatedAt'] },
             include: [Genre, Actors],
-            attributes: { exclude: ['createdAt', 'updatedAt'] },
+            attributes: { exclude: ['createdAt', 'updatedAt'] },   
         })
             
             .then(data => {
@@ -41,7 +40,8 @@ const UserController = {
             });
     },
 
-    moviesByTitle(req, res){
+    // MOVIE BY MOVIE TITLE
+    MoviesByTitle(req, res){
         Movie.findAll({ 
             attributes: { exclude: ['createdAt', 'updatedAt'] },
             where: {
@@ -50,7 +50,8 @@ const UserController = {
                     [Op.like]: '%'+ req.params.title +'%'
                 }
             },         
-            include: [Genre, Actors]
+            include: [Genre, Actors],
+            attributes: { exclude: ['createdAt', 'updatedAt'] },   
         })
             .then(data => {
                 res.status(200);
@@ -62,8 +63,8 @@ const UserController = {
             });
     },
 
-    // POPULAR ALL
-    popularAll(req, res){
+    // MOVIES POPULAR ALL
+    MoviesPopularAll(req, res){
         Movie.findAll({
             where: 
                 {vote_count: {
@@ -84,8 +85,8 @@ const UserController = {
         });
     },
 
-    // POPULAR BY GENRE
-    popularByGenre(req, res){
+    // MOVIES POPULAR BY GENRE NAME
+    MoviesPopularByGenre(req, res){
         let { name } = req.params;
         Genre.findOne({
             where: { name },
@@ -109,8 +110,8 @@ const UserController = {
             });
     },
 
-    // POPULAR BY TITLE **
-    popularByTitle(req, res){  //* Meterle que filtre nombres no completos y por nombre original
+    // MOVIES POPULAR BY TITLE NAME **
+    MoviesPopularByTitle(req, res){  //* Meterle que filtre nombres no completos y por nombre original
         let { title } = req.params;
         Movie.findAll({
             where: {[
@@ -131,8 +132,8 @@ const UserController = {
         });
     },
 
-    // PREMIERE ALL
-    premiereAll(req, res){
+    // MOVIES PREMIERE ALL
+    MoviesPremiereAll(req, res){
         Movie.findAll({
             where: {
                 release_date: {
@@ -152,8 +153,8 @@ const UserController = {
         });
     },
 
-    // PREMIERE BY GENRE
-    premiereByGenre(req, res){
+    // MOVIES PREMIERE BY GENRE NAME
+    MoviesPremiereByGenre(req, res){
         let { name } = req.params;
         Genre.findOne({
             where: { name },
@@ -177,8 +178,8 @@ const UserController = {
         });
     },
 
-    // PREMIERE BY TITLE **
-    premiereByTitle(req, res){
+    // MOVIES PREMIERE BY TITLE NAME **
+    MoviesPremiereByTitle(req, res){
         let { title } = req.params;
         Genre.findOne({
             where: { title },
@@ -201,8 +202,8 @@ const UserController = {
         });
     },
 
-    // CREATE MOVIE
-    async movieAdd(req, res){
+    // MOVIE CREATE (falta añadir id y generos en tabla intermedia)
+    async MovieAdd(req, res){
         try{
             Movie.create({...req.body})
             .then(movie=>{
@@ -215,9 +216,52 @@ const UserController = {
         }    
     },
 
-    // ACTOR
-    actorAll(req, res){
+    // MOVIE MODIFY
+    MovieModify(req, res){
+        let body = req.body;
+        let { id } = req.params;
+        Movie.update({ 
+            popularity: body.popularity,
+            vote_count: body.vote_count,
+            poster_path: body.poster_path,
+            backdrop_path: body.backdrop_path,
+            original_language: body. original_language,
+            original_title: body.original_title,
+            title: body.title,
+            vote_average: body.vote_average,
+            overview: body.overview,
+            release_date: body.release_date,
+            GenreId: body.GenreId
+        },
+            { where: 
+                { id } 
+            }
+        )
+        .then(data => {
+            res.status(200);
 
+            res.send({message: 'Pedido modificado satisfactoriamente'});
+            
+        })
+        .catch(err => {
+            res.status(500);
+            res.json(`"error": ${err}`);
+        }); 
+    },
+
+    // MOVIE DELETE
+    MovieDelete(req, res){
+        let { id } = req.params;
+        Movie.destroy({ where: { id } })
+        .then(movie => {
+            res.status(200);
+            res.send({message: 'Pelicula eliminada satisfactoriamente'});
+            res.json(movie)
+        })
+        .catch(err => {
+            res.status(500);
+            res.json(`"error": ${err}`);
+        });
     },
 }
 

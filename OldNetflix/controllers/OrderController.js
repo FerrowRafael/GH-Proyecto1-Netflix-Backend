@@ -121,7 +121,7 @@ const OrderController = {
     },
 
     // ORDERS BY USER ID (Hay otra version mejor en USERS)
-    OrdersByUserID(req, res){
+    OrdersByUserId(req, res){
         let { id } = req.params;
         Order.findAll({
             include: 
