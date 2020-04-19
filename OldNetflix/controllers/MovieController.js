@@ -63,6 +63,11 @@ const UserController = {
             });
     },
 
+    // MOVIE BY MOVIE TITLE
+    MoviesByTitle(req, res){
+        Movie.findAll({})
+    },
+
     // MOVIES POPULAR ALL
     MoviesPopularAll(req, res){
         Movie.findAll({

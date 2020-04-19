@@ -59,25 +59,6 @@ const OrderController = {
         })
     },
 
-    // BUSCAR TODOS LOS PEDIDOS DE UN USUARIO POR ID
-    OrdersAllUser(req, res){
-        let { id } = req.params;
-        User.findOne({ 
-            where: { id },  
-            include: [{model: Order,
-                attributes: { exclude: ['createdAt', 'updatedAt']}
-            }],  
-        })
-            .then(data => {
-                res.status(200);
-                res.json(data);
-            })
-            .catch(err => {
-                res.status(500);
-                res.json(`"error": ${err}`);
-            })
-    },
-
     // MODIFY ORDER
     OrderModify(req, res){
         let body = req.body;

@@ -6,6 +6,7 @@ const MovieController =require('../controllers/MovieController');
 router.get('/', MovieController.MoviesAll); // MOVIES ALL
 router.get('/id=:id', MovieController.MoviesById); // MOVIES BY MOVIE ID
 router.get('/title=:title', MovieController.MoviesByTitle); // MOVIE BY MOVIE TITLE
+// router.get('/search=:title', MovieController.MoviesByTitleActor); // MOVIE BY MOVIE TITLE AND ACTOR **
 
 // POPULAR
 router.get('/popular', MovieController.MoviesPopularAll); // MOVIES POPULAR ALL

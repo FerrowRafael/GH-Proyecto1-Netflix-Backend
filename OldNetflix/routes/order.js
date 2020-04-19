@@ -13,5 +13,4 @@ router.get('/order=:id', OrderController.OrderById); //2 ORDER BY ORDER ID
 router.get('/order/user=:id', OrderController.OrdersByUserId); //8.5 ORDERS BY USER ID (Hay otra version mejor en USERS)
 
 
-
 module.exports = router;
