@@ -45,7 +45,8 @@ const UserController = {
         Movie.findAll({ 
             attributes: { exclude: ['createdAt', 'updatedAt'] },
             where: {
-                title: {
+                title: 
+                {
                     [Op.like]: '%'+ req.params.title +'%'
                 }
             },         

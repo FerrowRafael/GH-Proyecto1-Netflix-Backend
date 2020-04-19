@@ -4,9 +4,14 @@ const moment = require('moment'); //Libreria para crear fechas
 
 const OrderController = {
 
-    // TODOS LOS PEDIDOS
+    // ORDERS ALL
     OrdersAll(req, res){
-        Order.findAll()
+        Order.findAll({
+            include:[
+                Movie ,
+                User 
+            ],
+        })
             .then(data => {
                 res.status(200);
                 res.json(data);
@@ -115,7 +120,26 @@ const OrderController = {
         });
     },
 
-  
+    // ORDERS BY USER ID (Hay otra version mejor en USERS)
+    OrdersByUserID(req, res){
+        let { id } = req.params;
+        Order.findAll({
+            include: 
+                [ 
+                    { model: Movie },
+                    { model: User,
+                        where: { id }, 
+                        attributes: {include: 'id'}
+                    }    
+                ]   
+            
+        })
+          .then(data => 
+            res.json(data))
+          .catch(console.error)
+    },
+
+
     
 }
 

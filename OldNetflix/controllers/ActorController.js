@@ -25,7 +25,6 @@ const ActorController = {
                 attributes: { exclude: ['createdAt', 'updatedAt'] },
             }]
         })
-            
             .then(data => {
                 res.status(200);
                 res.json(data);

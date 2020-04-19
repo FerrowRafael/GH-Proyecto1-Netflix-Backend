@@ -94,10 +94,10 @@ const UserController = {
     async logout(req, res){
         try {    
             await Token.destroy({
-                where:{ [Op.and]:[
+                where:{[Op.and]:[
                     {UserId:req.user.id},
                     {token:req.headers.authorization}
-                ] }
+                ]}
             });
             res.send({message:'Desconectado con éxito'})
         } catch (error) {
@@ -114,10 +114,12 @@ const UserController = {
     // GET ALL USERS
     UsersAll(req, res){
         User.findAll({
-            include: [{
-            model: City,
             attributes: { exclude: ['createdAt', 'updatedAt'] },
-        }],})
+            include: [
+                City, 
+                Order
+            ],
+        })
             .then(data => {
                 res.status(200);
                 res.json(data);
@@ -129,13 +131,17 @@ const UserController = {
     },
 
     // GET USER BY ID
-    UsersById(req, res){
+    UserById(req, res){
         let { id } = req.params;
         User.findOne({ 
-            where: { id },
-            // include: [{model: City,
-            //     attributes: { exclude: ['createdAt', 'updatedAt']}
-            // }],     
+            where: { id }, 
+            include: [ 
+                { model: City },
+                { model: Order,
+                    include: Movie
+                }    
+            ],
+            attributes: { exclude: ['createdAt', 'updatedAt']}      
         })
             .then(data => {
                 res.status(200);
@@ -148,13 +154,17 @@ const UserController = {
     },
 
     // GET USER BY NAME
-    UsersByName(req, res){
+    UserByName(req, res){
         let { username } = req.params;
         User.findOne({ 
             where: { username },
-            include: [{model: City,
-                attributes: { exclude: ['createdAt', 'updatedAt']}
-            }],     
+            include: [ 
+                { model: City },
+                { model: Order,
+                    include: Movie
+                }    
+            ],
+            attributes: { exclude: ['createdAt', 'updatedAt']}         
         })
             .then(data => {
                 res.status(200);
@@ -166,6 +176,8 @@ const UserController = {
                 res.json(`"error": ${err}`);
             });
     },
+
+    
 
     // MODIFIED USER
     UserModified(req, res){
@@ -198,7 +210,11 @@ const UserController = {
     // DELETE USER
     UserDelete(req, res){
         let { id } = req.params;
-        User.destroy({ where: { id } })
+        User.destroy
+        ({ 
+            where: 
+            { id } 
+        })
         .then(data => {
             res.status(200);
             res.send({message: 'Usuario eliminado satisfactoriamente'});
@@ -210,6 +226,10 @@ const UserController = {
         });
     },
 
+    // ALL ONE USER ORDERS BY ID
+    UsersOrdersAll(req, res){
+
+    },
 
     // PEDIDOS DE UN USUARIO POR ID
     UsersOrdersById(req, res){
@@ -218,12 +238,12 @@ const UserController = {
             where: { id },  
             include: [{
                 model: Order,
-                attributes: { exclude: ['createdAt', 'updatedAt']},
                 include: [{
                     model: Movie
-                }]
+                }],
+                attributes: { exclude: ['createdAt', 'updatedAt']} 
             }],
-                attributes: { exclude: ['createdAt', 'updatedAt']}
+            attributes: { exclude: ['createdAt', 'updatedAt']}
         })
             .then(data => {
                 res.status(200);

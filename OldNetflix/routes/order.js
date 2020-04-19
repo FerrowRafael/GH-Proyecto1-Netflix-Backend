@@ -3,15 +3,15 @@ const router = express.Router();
 const OrderController =require('../controllers/OrderController');
 
 
-// ADMINISTRADOR
-router.get('/', OrderController.OrdersAll); //Filtro todos pedidos de todos los clientes
-router.get('/order=:id', OrderController.OrderById); //Filtro de un pedido por ID
-router.put('/user=:id', OrderController.OrderModify); //Modificacion Pedido
-router.delete('/user=:id', OrderController.OrderDelete); //Eliminacion Pedido
 
-// CLIENTE
-router.get('/user=:id', OrderController.OrdersAllUser); //Filtro todos pedidos de un cliente
-router.post('/user', OrderController.OrderCreate); //Creacion Pedido
+router.get('/', OrderController.OrdersAll); //1 ALL ORDERS 
+router.post('/order', OrderController.OrderCreate); //5 ORDER CREATE
+router.put('/order=:id', OrderController.OrderModify); //6 ORDER MODIFY
+router.delete('/order=:id', OrderController.OrderDelete); //7 ORDER DELETE
+
+router.get('/order=:id', OrderController.OrderById); //2 ORDER BY ORDER ID
+router.get('/order/user=:id', OrderController.OrdersByUserID); //2 ORDERS BY USER ID (Hay otra version mejor en USERS)
+
 
 
 module.exports = router;

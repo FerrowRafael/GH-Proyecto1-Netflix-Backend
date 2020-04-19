@@ -8,17 +8,19 @@ router.post('/login', UserController.login);
 router.get('/logout', authentication, UserController.logout); 
 router.get('/info', authentication, UserController.getInfo); //*Arreglar
 router.put('/user=:id', UserController.UserModified);
-router.delete('=:id', UserController.UserDelete);
+router.delete('/user=:id', UserController.UserDelete);
 
 // SEARCH
 router.get('/', UserController.UsersAll);
-router.get('user=:id', UserController.UsersById);
-router.get('/user=:username', UserController.UsersByName);
+router.get('/user=:id', UserController.UserById);
+router.get('/user/username=:username', UserController.UserByName);
+
 
 // ORDERS
-router.get('/order=:id', UserController.UsersOrdersById); //Todos los datos, usuario, pedido y peliculas por pedido
-router.get('/orderDate=:id', UserController.UserOrderDates); //Fechas pedidos por usuario
-router.get('/order/email=:email', UserController.OrderByEmail); //Busqueda pedidos por email usuario
+router.get('/order/', UserController.UsersOrdersAll); //8 ALL A USERs ORDERS
+router.get('/order=:id', UserController.UsersOrdersById); // A USER ORDERS BY USER ID todos los datos, usuario, pedido y peliculas por pedido
+router.get('/orderDate=:id', UserController.UserOrderDates); //4 ORDER BY ORDER DATE ¿?
+router.get('/email=:email', UserController.OrderByEmail); //3 ORDER BY USER EMAIL
 
 
 
