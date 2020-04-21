@@ -110,7 +110,8 @@ const OrderController = {
                     { model: Movie },
                     { model: User,
                         where: { id }, 
-                        attributes: {include: 'id'}
+                        attributes: {include: 'id'},
+                        include: City
                     }    
                 ]   
             

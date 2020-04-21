@@ -251,14 +251,15 @@ const UserController = {
         let { id } = req.params;
         User.findAll({ 
             where: { id },  
-            include: [{
-                model: Order,
-                include: [{
-                    model: Movie
-                }],
+            include: 
+                [ 
+                    { model: City },
+                    { model: Order,
+                        include: Movie
+                    }    
+                ], 
                 attributes: { exclude: ['createdAt', 'updatedAt']} 
-            }],
-            attributes: { exclude: ['createdAt', 'updatedAt']}
+            
         })
             .then(data => {
                 res.status(200);

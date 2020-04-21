@@ -1,8 +1,9 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const Signature = require('./signature')
 
-const secret = process.env.JWT_SECRET || 'SUPERCALIFRAGILISTICOESPIALIDOSO';
-
+const secret = process.env.JWT_SECRET || Signature;
+console.log(Signature);
 async function hashPassword(password) {
   return await bcrypt.hash(password, 10);
 }

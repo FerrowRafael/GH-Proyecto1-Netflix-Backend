@@ -213,7 +213,7 @@ const UserController = {
             Movie.create({...req.body})
             .then(movie=>{
                movie.addGenre(req.body.GenreId)
-               res.send(movie)
+               res.send({ message: 'Pelicula creada satisfactoriamente' })
             })
         }
         catch{
@@ -245,7 +245,7 @@ const UserController = {
         .then(data => {
             res.status(200);
 
-            res.send({message: 'Pedido modificado satisfactoriamente'});
+            res.send({message: 'Pelicula modificada satisfactoriamente'});
             
         })
         .catch(err => {
