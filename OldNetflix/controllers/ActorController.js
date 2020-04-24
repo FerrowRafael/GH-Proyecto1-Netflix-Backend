@@ -36,7 +36,7 @@ const ActorController = {
     },
 
     ActorByName(req, res){
-        Actors.findOne({ 
+        Actors.findAll({ 
             attributes: { exclude: ['createdAt', 'updatedAt'] },
             where: {
                 name: 

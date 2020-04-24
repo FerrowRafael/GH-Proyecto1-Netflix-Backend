@@ -15,11 +15,13 @@ const UserController = {
     // REGISTER
     async register(req, res) { 
         try {
-            req.body.role = "user   "; //Ponemos en la db por defecto user para que cualquiera no pueda ponerse Admin
+            req.body.role = "user"; //Ponemos en la db por defecto user para que cualquiera no pueda ponerse Admin
             isValidPassword(req.body.password);
             req.body.password = await hashPassword(req.body.password);
             const user = await User.create(req.body);
-            res.status(201).send({
+            res
+            .status(201)
+            .send({
                 user: user,
                 message: 'Usuario creado satisfactoriamente'
             });
@@ -27,6 +29,11 @@ const UserController = {
         
         catch (error) {
             console.log(error)
+            res
+            .status(500)
+            .send({
+                message: 'There was a problem trying to sign up'
+            })
 
             // if (error.message === 'invalidPasswordError') {
             //     return res.status(400).json({
@@ -64,13 +71,17 @@ const UserController = {
             });
 
             if (!user) {
-                return res.status(401).send({  message: 'Email o contraseña incorrectas' });
+                return res
+                .status(401)
+                .send({ message: 'Email o contraseña incorrectas' });
             }
 
             // Comprobamos que el email de la vista es igual al de la base de datos
             const isMatch = await bcrypt.compare(req.body.password, user.password );
             if (!isMatch) {
-                return res.status(401).send({ message: 'Email o contraseña incorrectas' });
+                return res
+                .status(401)
+                .send({ message: 'Email o contraseña incorrectas' });
             }
             const data = {
                 username: user.username,
@@ -81,12 +92,15 @@ const UserController = {
             // Creamos un token 
             const token = await createJWT(data);
             await Token.create({ token, UserId:user.id });
-            res.send({ message: 'Bienvenid@ ' + user.username, user, token });
-
-
-        } catch (error) {
+            res
+            .send({ message: 'Bienvenid@ ' + user.username, user, token });
+        } 
+        
+        catch (error) {
             console.log(error)
-            res.status(500).send({ message: 'Ha habido un problema al tratar de conectarse' })
+            res
+            .status(500)
+            .send({ message: 'Ha habido un problema al tratar de conectarse' })
         }
     },
 
@@ -98,16 +112,24 @@ const UserController = {
                     {UserId:req.user.id},
                     {token:req.headers.authorization}
                 ]}
+            },
+            {
+                new: true
             });
-            res.send({message:'Desconectado con éxito'})
-        } catch (error) {
+            res
+            .send({message:'Desconectado con éxito'})
+        } 
+        
+        catch (error) {
             console.log(error)
-            res.status(500).send({message:'hubo un problema al tratar de desconectarte'})
+            res
+            .status(500)
+            .send({message:'hubo un problema al tratar de desconectarte'})
         }
     },
 
     // GET INFO
-    async getInfo(req, res){
+    async getUserInfo(req, res){
         res.send(req.user)
     },
 
@@ -177,33 +199,55 @@ const UserController = {
             });
     },
 
-    // MODIFIED USER
-    UserModified(req, res){
-        let body = req.body;
-        let { id } = req.params;
-        User.update({ 
-            username: body.username, 
-            firstName: body.firstName,
-            lastName: body.lastName,
-            email: body.email,
-            password: body.password, 
-            address: body.address, 
-            imageURL: body.imageURL, 
-            CityId: body.CityId 
-        },
-            { where: 
-                { id } 
+    async UserModified(req, res) {
+        try {
+            req.body.role = "user";
+            if (req.body.password) {
+                //comparamos que la vieja contraseña corresponde a la de MongoD
+                const isMatch = await bcrypt.compare(req.body.oldPassword, req.user.password);
+                if (!isMatch) return res.status(401).send({ //en caso de no corresponder no actualizamos la contraseña
+                    message: 'Wrong credentials'
+                })
+                req.body.password = await bcrypt.hash(req.body.password, 9);
             }
-        )
-        .then(data => {
-            res.status(200);
-            res.send({message: 'Usuario modificado satisfactoriamente'});   
-        })
-        .catch(err => {
-            res.status(500);
-            res.json(`"error": ${err}`);
-        });
+            //findByIdAndUpdate toman el _id como primer argument y actualiza ese documento con los campos que le pasemos en el segundo argumento
+            const user = await UserModel.findByIdAndUpdate("5ea021ae04400436081393bf", req.body, {
+                new: true
+            })
+            res.send(user)
+        } catch (error) {
+            console.error(error);
+            res.status(500).send(error)
+        }
     },
+
+    // MODIFIED USER
+    // UserModified(req, res){
+    //     let body = req.body;
+    //     let { id } = req.params;
+    //     User.update({ 
+    //         username: body.username, 
+    //         firstName: body.firstName,
+    //         lastName: body.lastName,
+    //         email: body.email,
+    //         password: body.password, 
+    //         address: body.address, 
+    //         imageURL: body.imageURL, 
+    //         CityId: body.CityId 
+    //     },
+    //         { where: 
+    //             { id } 
+    //         }
+    //     )
+    //     .then(data => {
+    //         res.status(200);
+    //         res.send({message: 'Usuario modificado satisfactoriamente'});   
+    //     })
+    //     .catch(err => {
+    //         res.status(500);
+    //         res.json(`"error": ${err}`);
+    //     });
+    // },
 
     // DELETE USER
     UserDelete(req, res){
