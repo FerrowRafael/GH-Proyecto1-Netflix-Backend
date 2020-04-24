@@ -21,7 +21,7 @@ router.get('/order/', authentication, isAdmin, UserController.UsersOrdersAll); /
 router.get('/order/email=:email', authentication, isAdmin, UserController.OrderByEmail); //11 3 ORDER BY USER EMAIL xd
 router.get('/order/orderDate=:id', authentication, isAdmin, UserController.UserByOrderDates); //12 4 ORDER BY ORDER DATE ¿?
 router.get('/order/id=:id', authentication, isAdmin, UserController.UsersOrdersByUserId); //13 8 A USER ORDERS BY USER ID todos los datos, usuario, pedido y peliculas por pedido
-
+ 
 
 
 
