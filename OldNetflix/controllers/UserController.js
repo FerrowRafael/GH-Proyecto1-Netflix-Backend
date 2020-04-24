@@ -1,4 +1,4 @@
-const { User, City, Order, Movie, Token, Sequelize } = require('../models');
+const { User, City, Order, Movie, Actors, Token, Sequelize } = require('../models');
 const { Op } = Sequelize;
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -8,11 +8,10 @@ const {
     comparePassword,
     createJWT,
     decodeJWT,
-
  } = require('../services/authorization');
 
 const UserController = {
-    // REGISTER
+    // 1 REGISTER
     async register(req, res) { 
         try {
             req.body.role = "user"; //Ponemos en la db por defecto user para que cualquiera no pueda ponerse Admin
@@ -60,7 +59,7 @@ const UserController = {
         }
     },
 
-    // LOGIN
+    // 2 LOGIN
     async login(req, res) {
         try {
             // Comprobamos que existe ese usuario a partir del email
@@ -104,7 +103,7 @@ const UserController = {
         }
     },
 
-    // LOGOUT
+    // 3 LOGOUT
     async logout(req, res){
         try {    
             await Token.destroy({
@@ -128,18 +127,84 @@ const UserController = {
         }
     },
 
-    // GET INFO
+    // 4 GET INFO
     async getUserInfo(req, res){
-        res.send(req.user)
+        try {
+            const user = await User.findOne({
+                where: { username: req.user.dataValues.username },
+                include: [ 
+                    { model: City },
+                    { model: Order,
+                        include: { model: Movie,
+                            include: Actors
+                        } 
+                            
+                    }    
+                ],
+            })
+            res
+            .send(user)
+        } catch (error) {
+            res
+            .status(500)
+            .send({ message: 'Hubo un problema al tratar de obtener los datos del usuario' });
+        }
     },
 
-    // GET ALL USERS
+    // 5 USER MODIFY
+    async UserModified(req, res) {
+        try {
+            let body = req.body
+            body.role = body.role;
+            if (body.password) {
+                
+                //comparamos que la vieja contraseña corresponde a la de MongoD
+                const isMatch = await bcrypt.compare(body.oldPassword, req.user.password);
+                // res.send(isMatch)
+                if (!isMatch) return res.status(401).send({ //en caso de no corresponder no actualizamos la contraseña
+                    message: 'Wrong credentials'
+                })
+                body.password = await bcrypt.hash(body.password, 9);
+            }
+            let user = await User.update({...req.body, password: req.body.password }, { where: { id: req.user.id } })
+            res.send({message: 'Usuario modificado satisfactoriamente', user})
+        }
+        catch (error) {
+            console.error(error);
+            res.status(500).send(error)
+        }
+    },
+
+    // 6 USER DELETE 
+    async UserDelete(req, res){
+        let { id } = req.params;
+        await User.destroy
+        ({ 
+            where: 
+            { id } 
+        })
+        .then(data => {
+            res.status(200);
+            res.send({message: 'Usuario eliminado satisfactoriamente'});
+            res.json(data)
+        })
+        .catch(err => {
+            res.status(500);
+            res.json(err);
+        });
+    },
+
+    // 7 ALL USERS
     UsersAll(req, res){
         User.findAll({
             attributes: { exclude: ['createdAt', 'updatedAt'] },
-            include: [
-                City, 
-                Order
+            include: [ 
+                { model: City },
+                { model: Order,
+                    include: { model: Movie,
+                        include: Actors
+                    }       
+                }    
             ],
         })
             .then(data => {
@@ -152,7 +217,7 @@ const UserController = {
             })
     },
 
-    // GET USER BY ID
+    // 8 GET USER BY ID
     UserById(req, res){
         let { id } = req.params;
         User.findOne({ 
@@ -160,7 +225,9 @@ const UserController = {
             include: [ 
                 { model: City },
                 { model: Order,
-                    include: Movie
+                    include: { model: Movie,
+                        include: Actors
+                    }        
                 }    
             ],
             attributes: { exclude: ['createdAt', 'updatedAt']}      
@@ -175,7 +242,7 @@ const UserController = {
             })
     },
 
-    // GET USER BY NAME
+    // 9 GET USER BY NAME
     UserByName(req, res){
         let { username } = req.params;
         User.findOne({ 
@@ -183,7 +250,9 @@ const UserController = {
             include: [ 
                 { model: City },
                 { model: Order,
-                    include: Movie
+                    include: { model: Movie,
+                        include: Actors
+                    }         
                 }    
             ],
             attributes: { exclude: ['createdAt', 'updatedAt']}         
@@ -197,75 +266,6 @@ const UserController = {
                 res.send("No existe ningun usuario con ese nombre")
                 res.json(`"error": ${err}`);
             });
-    },
-
-    async UserModified(req, res) {
-        try {
-            req.body.role = "user";
-            if (req.body.password) {
-                //comparamos que la vieja contraseña corresponde a la de MongoD
-                const isMatch = await bcrypt.compare(req.body.oldPassword, req.user.password);
-                if (!isMatch) return res.status(401).send({ //en caso de no corresponder no actualizamos la contraseña
-                    message: 'Wrong credentials'
-                })
-                req.body.password = await bcrypt.hash(req.body.password, 9);
-            }
-            //findByIdAndUpdate toman el _id como primer argument y actualiza ese documento con los campos que le pasemos en el segundo argumento
-            const user = await UserModel.findByIdAndUpdate("5ea021ae04400436081393bf", req.body, {
-                new: true
-            })
-            res.send(user)
-        } catch (error) {
-            console.error(error);
-            res.status(500).send(error)
-        }
-    },
-
-    // MODIFIED USER
-    // UserModified(req, res){
-    //     let body = req.body;
-    //     let { id } = req.params;
-    //     User.update({ 
-    //         username: body.username, 
-    //         firstName: body.firstName,
-    //         lastName: body.lastName,
-    //         email: body.email,
-    //         password: body.password, 
-    //         address: body.address, 
-    //         imageURL: body.imageURL, 
-    //         CityId: body.CityId 
-    //     },
-    //         { where: 
-    //             { id } 
-    //         }
-    //     )
-    //     .then(data => {
-    //         res.status(200);
-    //         res.send({message: 'Usuario modificado satisfactoriamente'});   
-    //     })
-    //     .catch(err => {
-    //         res.status(500);
-    //         res.json(`"error": ${err}`);
-    //     });
-    // },
-
-    // DELETE USER
-    UserDelete(req, res){
-        let { id } = req.params;
-        User.destroy
-        ({ 
-            where: 
-            { id } 
-        })
-        .then(data => {
-            res.status(200);
-            res.send({message: 'Usuario eliminado satisfactoriamente'});
-            res.json(data)
-        })
-        .catch(err => {
-            res.status(500);
-            res.json(`"error": ${err}`);
-        });
     },
 
     // ALL ONE USER ORDERS BY ID

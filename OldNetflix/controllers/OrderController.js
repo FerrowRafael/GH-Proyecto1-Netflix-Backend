@@ -1,4 +1,4 @@
-const { Order, User, City, Movie, Genre, Sequelize } = require('../models');
+const { Order, User, City, Movie, Actors, Genre, Sequelize } = require('../models');
 const { Op } = Sequelize;
 const moment = require('moment'); //Libreria para crear fechas
 
@@ -26,10 +26,15 @@ const OrderController = {
     OrderById(req, res){
         let { id } = req.params;
         Order.findOne({ 
-            where: { id },  
-            include:[
-                Movie ,
-                User 
+            include: [ 
+                { model: Movie,
+                    include: { model: Actors,
+                    } },
+                { model: User,
+                    where: { id },
+                    include: { model: City,
+                    }         
+                }    
             ],
                 attributes: { exclude: ['createdAt', 'updatedAt']}
         })
