@@ -128,7 +128,7 @@ const UserController = {
     },
 
     // 4 GET INFO
-    async getUserInfo(req, res){
+    async UserInfo(req, res){
         try {
             const user = await User.findOne({
                 where: { username: req.user.dataValues.username },

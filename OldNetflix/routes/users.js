@@ -7,7 +7,7 @@ const { authentication, isAdmin } =require('../middleware/authentication')
 router.post('/register', UserController.register); // 1 USER REGISTER xd
 router.post('/login', UserController.login); // 2 USER LOGIN xd
 router.get('/logout', authentication, UserController.logout); // 3 USER LOGOUT xd
-router.get('/info', authentication, UserController.getUserInfo); // 4 USER INFO xd
+router.get('/info', authentication, UserController.UserInfo); // 4 USER INFO xd
 router.put('/update', authentication, UserController.UserModified); // 5 USER MODIFY xd
 
 // ADMIN
