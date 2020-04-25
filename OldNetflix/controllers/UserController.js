@@ -14,7 +14,7 @@ const UserController = {
     // 1 REGISTER
     async register(req, res) { 
         try {
-            req.body.role = "user"; //Ponemos en la db por defecto user para que cualquiera no pueda ponerse Admin
+            // req.body.role = "user"; //Ponemos en la db por defecto user para que cualquiera no pueda ponerse Admin
             isValidPassword(req.body.password);
             req.body.password = await hashPassword(req.body.password);
             const user = await User.create(req.body);
@@ -197,19 +197,19 @@ const UserController = {
     // 7 ALL USERS
     UsersAll(req, res){
         User.findAll({
-            attributes: { exclude: ['createdAt', 'updatedAt'] },
-            include: [ 
-                { model: City },
-                { model: Order,
-                    include: { model: Movie,
-                        include: Actors
-                    }       
-                }    
-            ],
+            // attributes: { exclude: ['createdAt', 'updatedAt'] },
+            // include: [ 
+            //     { model: City },
+            //     { model: Order,
+            //         include: { model: Movie,
+            //             include: Actors
+            //         }       
+            //     }    
+            // ],
         })
-            .then(data => {
+            .then(users => {
                 res.status(200);
-                res.json(data);
+                res.send(users);
             })
             .catch(err => {
                 res.status(500);

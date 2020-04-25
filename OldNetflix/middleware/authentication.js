@@ -36,6 +36,7 @@ const authentication = async (req, res, next) => {
 
 const isAdmin = async (req, res, next) => {
     if (req.user.role !== 'admin') {
+        res.send(res.user.role)
        return res
        .status(403)
        .send({

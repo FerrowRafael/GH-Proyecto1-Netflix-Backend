@@ -12,5 +12,5 @@ router.delete('/order/id=:id', authentication, isAdmin, OrderController.OrderDel
 router.get('/order/id=:id', authentication, isAdmin, OrderController.OrderById); //2 ORDER BY ORDER ID xd
 router.get('/order/user=:id', authentication, isAdmin, OrderController.OrdersByUserId); //8.5 ORDERS BY USER ID xd (Hay otra version mejor en USERS)
 
-router.get('/user', authentication, isAdmin, OrderController.OrdersUser);
+router.get('/user', authentication, OrderController.OrdersUser);
 module.exports = router;

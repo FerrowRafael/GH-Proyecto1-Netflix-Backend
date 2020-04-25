@@ -118,8 +118,7 @@ const OrderController = {
                         attributes: {include: 'id'},
                         include: City
                     }    
-                ]   
-            
+                ]       
         })
           .then(data => 
             res.json(data))
@@ -127,24 +126,19 @@ const OrderController = {
     },
 
 // ORDERS BY USER (Hay otra version mejor en USERS)
-    OrdersUser(req, res){
+    OrdersUser(req, res) {
         Order.findAll({
-            include: 
-                [ 
-                    { model: Movie },
-                    { model: User,
-                        where: { username: req.user.dataValues.username }, 
-                        attributes: {include: 'id'},
-                        include: City
-                    }    
-                ]   
-            
-        })
-        .then(order => 
-            res.send(order))
-        .catch(console.error)
+                where: {
+                    UserId: req.user.id
+                },
+                include: { model: Movie,
+                    include: { model: Actors,
+                    }         
+                }  
+            })
+            .then(orders => res.send(orders))
     },
-    
+          
 }
 
 module.exports = OrderController;
