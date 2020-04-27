@@ -4,7 +4,7 @@ const OrderController =require('../controllers/OrderController');
 const { authentication, isAdmin } =require('../middleware/authentication')
 
 
-router.get('/', authentication, isAdmin, OrderController.OrdersAll); //1 ALL ORDERS xd
+router.get('/info/all', authentication, isAdmin, OrderController.OrdersAll); //1 ALL ORDERS **Añadir lo de isAdmin
 router.post('/order', authentication, OrderController.OrderCreate); //5 ORDER CREATE xs
 router.put('/order/id=:id', authentication, isAdmin, OrderController.OrderModify); //6 ORDER MODIFY xd
 router.delete('/order/id=:id', authentication, isAdmin, OrderController.OrderDelete); //7 ORDER DELETE xd

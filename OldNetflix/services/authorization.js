@@ -14,7 +14,7 @@ async function comparePassword(password, hash) {
 
 async function createJWT(data) {
   return jwt.sign(data, secret, {
-    expiresIn: '24h',
+    expiresIn: '48h',
   });
 }
 

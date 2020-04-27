@@ -23,7 +23,6 @@ const authentication = async (req, res, next) => {
         req.user = user;
         next();
     } 
-    
     catch (error) {
         console.log(error)
         res
@@ -35,16 +34,14 @@ const authentication = async (req, res, next) => {
 }
 
 const isAdmin = async (req, res, next) => {
-    if (req.user.role !== 'admin') {
-        res.send(res.user.role)
-       return res
-       .status(403)
-       .send({
-            message: 'You are not allowed to access this zone',
-            error
-        })
-    }
-    next();
+    try {
+        if(req.user.role !== "admin"){
+            return res.status(403).send({mensaje: 'No tienes permiso para ver esta seccion'})
+        }
+        next();
+    } catch (error) {
+        res.status(500).send(error);
+    } 
 }
 
 module.exports={

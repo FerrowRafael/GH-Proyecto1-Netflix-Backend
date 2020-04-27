@@ -138,7 +138,7 @@ const OrderController = {
             })
             .then(orders => res.send(orders))
     },
-          
+
 }
 
 module.exports = OrderController;

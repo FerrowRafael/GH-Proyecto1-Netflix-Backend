@@ -5,8 +5,8 @@ const moment = require('moment');
 const UserController = {
 
     // ALL MOVIES
-    MoviesAll(req, res){
-        Movie.findAll({
+    async MoviesAll(req, res){
+        await Movie.findAll({
             attributes: { exclude: ['createdAt', 'updatedAt'] },
             include: [Genre, Actors],
             attributes: { exclude: ['createdAt', 'updatedAt'] },
@@ -65,7 +65,27 @@ const UserController = {
 
     // MOVIE BY MOVIE TITLE AND ACTOR
     MoviesYActorByTitle(req, res){
-        Movie.findAll({})
+        Movie.findAll({
+            where: {
+                title: 
+                {
+                    [Op.like]: '%'+ req.params.title +'%'
+                }
+            },  
+            include: [{
+                model: Actors,
+                where: {
+                    name:
+                    {
+                        [Op.like]: '%'+ req.params.title +'%'  
+                    },
+                    attributes: { exclude: ['createdAt', 'updatedAt'] },
+                }
+                
+            }]          
+        })
+
+
     },
 
     // MOVIES POPULAR ALL
@@ -210,11 +230,10 @@ const UserController = {
     // MOVIE CREATE (falta añadir id y generos en tabla intermedia)
     async MovieAdd(req, res){
         try{
-            Movie.create({...req.body})
-            .then(movie=>{
-               movie.addGenre(req.body.GenreId)
-               res.send({ message: 'Pelicula creada satisfactoriamente' })
-            })
+            const movie = Movie.create({...req.body})
+            //    movie.addGenre(req.body.GenreId)
+               res.send({ movie: movie, message: 'Pelicula creada satisfactoriamente' })
+            
         }
         catch{
             res.status(500).send({ message: 'Ha habido un error al crear la pelicula' })
@@ -268,6 +287,7 @@ const UserController = {
             res.json(`"error": ${err}`);
         });
     },
+
 }
 
 module.exports = UserController;

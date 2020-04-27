@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const MovieController =require('../controllers/MovieController');
+const { authentication, isAdmin } =require('../middleware/authentication')
 
 // ALL MOVIES
 router.get('/', MovieController.MoviesAll); // MOVIES ALL

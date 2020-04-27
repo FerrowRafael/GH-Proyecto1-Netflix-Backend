@@ -12,7 +12,7 @@ router.put('/update', authentication, UserController.UserModified); // 5 USER MO
 
 // ADMIN
 router.delete('/delete/id=:id', authentication, isAdmin, UserController.UserDelete); /// 6 USER DELETE xd
-router.get('/info/all', authentication, isAdmin, UserController.UsersAll); // 7 ALL USERS xd
+router.get('/info/all', authentication, isAdmin, UserController.UsersAll); // 7 ALL USERS **Falta añadir isAdmin
 router.get('/info/id=:id', authentication, isAdmin, UserController.UserById); // 8 USER BY ID xd
 router.get('/info/username=:username', authentication, isAdmin, UserController.UserByName); // 9 USER BY USERNAME xd
 
