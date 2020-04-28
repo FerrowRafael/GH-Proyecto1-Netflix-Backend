@@ -49,19 +49,22 @@ const OrderController = {
     },
 
     // CREAR UN PEDIDO
-    OrderCreate(req, res){
-        Order.create({
-            dateRent: moment().format(),
-            dateArrival: moment().add(2, 'days'),
-            daysRent:req.body.daysRent,
-            status: "pending",
-            price:req.body.price,
-            UserId:req.body.UserId, //UserId(tiene que venir por un middleware/autentication)
-            MovieId:req.body.MovieId
-        })
-        .then(order=>{
-            res.send(order);
-        })
+    async OrderCreate(req, res){
+        try{
+            const order = await Order.create({
+                dateRent: moment().format(),
+                dateArrival: moment().add(2, 'days'),
+                daysRent: req.body.daysRent,
+                status: "pending",
+                price: req.body.price,
+                UserId: req.body.UserId, 
+                MovieId: req.body.MovieId
+            })
+            res.status(201).send({message: 'Pedido realizado con exito'}, order);  
+        }
+        catch{
+            res.status(500).send({message: 'Se ha producido un error al realizar el pedido'})
+        }
     },
 
     // MODIFY ORDER
@@ -70,6 +73,7 @@ const OrderController = {
         let { id } = req.params;
         Order.update({ 
             daysRent: body.daysRent,
+            dateArrival: body.dateArrival,
             status: "pending",
             price: body.price,
             UserId: body.UserId, //UserId(tiene que venir por un middleware/autentication)

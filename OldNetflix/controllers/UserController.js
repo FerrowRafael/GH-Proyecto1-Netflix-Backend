@@ -157,8 +157,7 @@ const UserController = {
             let body = req.body
             body.role = body.role;
             if (body.password) {
-                
-                //comparamos que la vieja contraseña corresponde a la de MongoD
+                //comparamos que la vieja contraseña corresponde a la de DB
                 const isMatch = await bcrypt.compare(body.oldPassword, req.user.password);
                 // res.send(isMatch)
                 if (!isMatch) return res.status(401).send({ //en caso de no corresponder no actualizamos la contraseña

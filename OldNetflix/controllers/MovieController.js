@@ -230,9 +230,9 @@ const UserController = {
     // MOVIE CREATE (falta añadir id y generos en tabla intermedia)
     async MovieAdd(req, res){
         try{
-            const movie = Movie.create({...req.body})
+            const movie = await Movie.create({...req.body})
             //    movie.addGenre(req.body.GenreId)
-               res.send({ movie: movie, message: 'Pelicula creada satisfactoriamente' })
+            res.send({ movie: movie, message: 'Pelicula creada satisfactoriamente' })
             
         }
         catch{
