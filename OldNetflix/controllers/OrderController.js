@@ -4,11 +4,11 @@ const moment = require('moment'); //Libreria para crear fechas
 
 const OrderController = {
 
-    // ORDERS ALL
+    // ORDERS ALL (WITH MOVIE AND USER)
     OrdersAll(req, res){
         Order.findAll({
             include:[
-                Movie ,
+                Movie,
                 User 
             ],
         })
@@ -22,10 +22,10 @@ const OrderController = {
             })
     },
 
-    // PEDIDO POR ID
+    // ORDERS BY ID (WITH MOVIE AND USER)
     OrderById(req, res){
         let { id } = req.params;
-        Order.findOne({ 
+        Order.findAll({ 
             include: [ 
                 { model: Movie,
                     include: { model: Actors,
@@ -48,12 +48,12 @@ const OrderController = {
             })
     },
 
-    // CREAR UN PEDIDO
+    // ORDER CREATE
     async OrderCreate(req, res){
         try{
-            const order = await Order.create({
-                dateRent: moment().format(),
-                dateArrival: moment().add(2, 'days'),
+            const order = Order.create({
+                dateRent: req.body.dateArrival,
+                dateArrival: req.body.dateArrival,
                 daysRent: req.body.daysRent,
                 status: "pending",
                 price: req.body.price,
@@ -67,13 +67,12 @@ const OrderController = {
         }
     },
 
-    // MODIFY ORDER
+    // ORDER UPDATE
     OrderModify(req, res){
         let body = req.body;
         let { id } = req.params;
         Order.update({ 
             daysRent: body.daysRent,
-            dateArrival: body.dateArrival,
             status: "pending",
             price: body.price,
             UserId: body.UserId, //UserId(tiene que venir por un middleware/autentication)
@@ -85,9 +84,7 @@ const OrderController = {
         )
         .then(data => {
             res.status(200);
-
-            res.send({message: 'Pedido modificado satisfactoriamente'});
-            
+            res.send({message: 'Pedido modificado satisfactoriamente'});   
         })
         .catch(err => {
             res.status(500);
@@ -95,7 +92,7 @@ const OrderController = {
         });
     },
 
-    // DELETE ORDER
+    // ORDER DELETE
     OrderDelete(req, res){
         let { id } = req.params;
         Order.destroy({ where: { id } })
@@ -110,7 +107,7 @@ const OrderController = {
         });
     },
 
-    // ORDERS BY USER ID (Hay otra version mejor en USERS)
+    // ORDERS BY USER ID (WITH MOVIE AND USER)(Hay otra version mejor en USERS)
     OrdersByUserId(req, res){
         let { id } = req.params;
         Order.findAll({
@@ -129,7 +126,7 @@ const OrderController = {
           .catch(console.error)
     },
 
-// ORDERS BY USER (Hay otra version mejor en USERS)
+    // ORDERS BY USER (WITH MOVIE)(Hay otra version mejor en USERS)
     OrdersUser(req, res) {
         Order.findAll({
                 where: {

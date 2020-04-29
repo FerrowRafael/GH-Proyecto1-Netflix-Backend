@@ -16,7 +16,7 @@ const CityController = {
             })
     },
 
-    // TODAS LAS CIUDADES CON SUS USUARIOS
+    // GET ALL CITIES (WITH USERS AND ORDERS)
     CitiesUsers(req, res){
         City.findAll({
             include: [{
@@ -40,6 +40,7 @@ const CityController = {
             })
     },
 
+    // CITY BY NAME
     CityByName(req, res){
         let { name } = req.params;
         City.findOne({

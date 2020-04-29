@@ -3,6 +3,8 @@ const { Op } = Sequelize;
 
 
 const ActorController = {
+
+    // ACTORS ALL
     ActorsAll(req, res){
         Actors.findAll()
         .then(data => {
@@ -15,6 +17,7 @@ const ActorController = {
         })
     },
 
+    // ACTOR BY ID
     ActorById(req, res){
         let { id } = req.params;
         Actors.findOne({
@@ -35,6 +38,7 @@ const ActorController = {
             });
     },
 
+    // ACTOR BY NAME
     ActorByName(req, res){
         Actors.findAll({ 
             attributes: { exclude: ['createdAt', 'updatedAt'] },
@@ -60,6 +64,5 @@ const ActorController = {
     },
 
 }
-
 
 module.exports = ActorController;

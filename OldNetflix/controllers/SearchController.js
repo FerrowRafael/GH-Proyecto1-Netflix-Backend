@@ -2,7 +2,8 @@ const { Order, User, City, Movie, Genre, Sequelize } = require('../models');
 const { Op } = Sequelize;
 
 const SearchController = {
-    // ORDER BY DATERENT
+
+    // ORDER BY DATERENT **
     OrderByDateRent(req, res){
         Order.findOne({ 
             where: {
@@ -27,7 +28,7 @@ const SearchController = {
             })
     },
 
-    // ORDER BY DATEARRIVAL
+    // ORDER BY DATEARRIVAL **
     OrderByDateArrival(req, res){
         let { dateArrival } = req.params;
         Order.findOne({ 

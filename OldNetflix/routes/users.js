@@ -23,7 +23,4 @@ router.get('/order/orderDate=:id', authentication, isAdmin, UserController.UserB
 router.get('/order/id=:id', authentication, isAdmin, UserController.UsersOrdersByUserId); //13 8 A USER ORDERS BY USER ID todos los datos, usuario, pedido y peliculas por pedido
   
 
-
-
-
 module.exports = router;

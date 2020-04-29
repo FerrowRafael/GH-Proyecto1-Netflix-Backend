@@ -3,6 +3,7 @@ const { Op } = Sequelize;
 const jwt = require('jsonwebtoken');
 const Signature = require('../services/signature')
 
+// AUTHENTICATION
 const authentication = async (req, res, next) => {
     try {
         const token = req.headers.authorization;
@@ -33,6 +34,7 @@ const authentication = async (req, res, next) => {
     }
 }
 
+// IS ADMIN
 const isAdmin = async (req, res, next) => {
     try {
         if(req.user.role !== "admin"){

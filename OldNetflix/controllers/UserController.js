@@ -14,7 +14,7 @@ const UserController = {
     // 1 REGISTER
     async register(req, res) { 
         try {
-            req.body.role = "user"; //Ponemos en la db por defecto user para que cualquiera no pueda ponerse Admin
+            // req.body.role = "user"; //Ponemos en la db por defecto user para que cualquiera no pueda ponerse Admin
             isValidPassword(req.body.password);
             req.body.password = await hashPassword(req.body.password);
             const user = await User.create(req.body);
@@ -155,7 +155,7 @@ const UserController = {
     async UserModified(req, res) {
         try {
             let body = req.body
-            body.role = body.role;
+            body.role = req.user.role;
             if (body.password) {
                 //comparamos que la vieja contraseña corresponde a la de DB
                 const isMatch = await bcrypt.compare(body.oldPassword, req.user.password);
@@ -165,7 +165,10 @@ const UserController = {
                 })
                 body.password = await bcrypt.hash(body.password, 9);
             }
-            let user = await User.update({...req.body, password: req.body.password }, { where: { id: req.user.id } })
+            let user = await User.update(
+                { ...body }, 
+                { where: { id: req.user.id } 
+            })
             res.send({message: 'Usuario modificado satisfactoriamente', user})
         }
         catch (error) {

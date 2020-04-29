@@ -16,16 +16,16 @@ const GenreController = {
         })
     },
 
-    // FILTRO GENERO POR ID (CON PELICULAS)
+    // GENRE BY ID (WITH MOVIE)
     GenresById(req, res){
         let { id } = req.params;
-        Genre.findOne({
+        Genre.findAll({
             attributes: { exclude: ['createdAt', 'updatedAt'] },
             where: { id },           
-                include: [{
+                include: {
                 model: Movie,
                 attributes: { exclude: ['createdAt', 'updatedAt'] },
-            }],
+            },
         })   
             .then(data => {
                 res.status(200);
@@ -37,7 +37,7 @@ const GenreController = {
             });
     },
 
-    // FILTRO GENERO POR NOMBRE (CON PELICULAS)
+    // GENRE BY NAME (WITH MOVIE)
     GenresByName(req, res){
         let { name } = req.params;
         Genre.findOne({
