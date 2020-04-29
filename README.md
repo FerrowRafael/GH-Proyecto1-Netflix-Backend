@@ -256,65 +256,65 @@ GET <a href="http://localhost:3000/actors/name=:name">http://localhost:3000/acto
   
 #### City
 
-GET <a href="http://localhost:3000/cities">http://localhost:3000/cities<a>
-GET <a href="http://localhost:3000/cities/user">http://localhost:3000/cities/user<a>
-GET <a href="http://localhost:3000/cities/name=:name">http://localhost:3000/cities/name=:name<a>
+- GET <a href="http://localhost:3000/cities">http://localhost:3000/cities<a>
+- GET <a href="http://localhost:3000/cities/user">http://localhost:3000/cities/user<a>
+- GET <a href="http://localhost:3000/cities/name=:name">http://localhost:3000/cities/name=:name<a>
 
 
 #### Genre
 
-GET <a href="http://localhost:3000/genres">http://localhost:3000/genres<a>
-GET <a href="http://localhost:3000/genres/id=:id">http://localhost:3000/genres/id=:id<a>
-GET <a href="http://localhost:3000/genres/name=:name">http://localhost:3000/genres/name=:name<a>
+- GET <a href="http://localhost:3000/genres">http://localhost:3000/genres<a>
+- GET <a href="http://localhost:3000/genres/id=:id">http://localhost:3000/genres/id=:id<a>
+- GET <a href="http://localhost:3000/genres/name=:name">http://localhost:3000/genres/name=:name<a>
 
 
 #### Movie
 
-GET <a href="http://localhost:3000/movies">http://localhost:3000/movies<a>
-GET <a href="http://localhost:3000/movies/id=:id">http://localhost:3000/movies/id=:id<a>
-GET <a href="http://localhost:3000/movies/title=:title">http://localhost:3000/movies/title=:title<a>
-GET <a href="http://localhost:3000/movies/popular">http://localhost:3000/movies/popular<a>
-GET <a href="http://localhost:3000/movies/popular/genre=:name">http://localhost:3000/movies/popular/genre=:name<a>
-GET <a href="http://localhost:3000/movies/premiere">http://localhost:3000/movies/premiere<a>
-GET <a href="http://localhost:3000/movies/premiere/genre=:name">http://localhost:3000/movies/premiere/genre=:name<a>
-POST <a href="http://localhost:3000/movies/">http://localhost:3000/movies/<a>
-PUT <a href="http://localhost:3000/movies/id=:id">http://localhost:3000/movies/id=:id<a>
-DELETE <a href="http://localhost:3000/movies/id=:id">http://localhost:3000/movies/id=:id<a>
+- GET <a href="http://localhost:3000/movies">http://localhost:3000/movies<a>
+- GET <a href="http://localhost:3000/movies/id=:id">http://localhost:3000/movies/id=:id<a>
+- GET <a href="http://localhost:3000/movies/title=:title">http://localhost:3000/movies/title=:title<a>
+- GET <a href="http://localhost:3000/movies/popular">http://localhost:3000/movies/popular<a>
+- GET <a href="http://localhost:3000/movies/popular/genre=:name">http://localhost:3000/movies/popular/genre=:name<a>
+- GET <a href="http://localhost:3000/movies/premiere">http://localhost:3000/movies/premiere<a>
+- GET <a href="http://localhost:3000/movies/premiere/genre=:name">http://localhost:3000/movies/premiere/genre=:name<a>
+- POST <a href="http://localhost:3000/movies/">http://localhost:3000/movies/<a>
+- PUT <a href="http://localhost:3000/movies/id=:id">http://localhost:3000/movies/id=:id<a>
+- DELETE <a href="http://localhost:3000/movies/id=:id">http://localhost:3000/movies/id=:id<a>
 
 
 #### Order
 
-GET <a href="http://localhost:3000/orders/info/all">http://localhost:3000/orders/info/all<a>
-POST <a href="http://localhost:3000/orders/order">http://localhost:3000/orders/order<a>
-PUT <a href="http://localhost:3000/orders/order/id=:id">http://localhost:3000/orders/order/id=:id<a>
-DELETE <a href="http://localhost:3000/orders/order/id=:id">http://localhost:3000/orders/order/id=:id<a>
-GET <a href="http://localhost:3000/orders/order/id=:id">http://localhost:3000/orders/order/id=:id<a>
-GET <a href="http://localhost:3000/orders/order/user=:id">http://localhost:3000/orders/order/user=:id<a>
-GET <a href="http://localhost:3000/orders/user">http://localhost:3000/orders/user<a>
+- GET <a href="http://localhost:3000/orders/info/all">http://localhost:3000/orders/info/all<a>
+- POST <a href="http://localhost:3000/orders/order">http://localhost:3000/orders/order<a>
+- PUT <a href="http://localhost:3000/orders/order/id=:id">http://localhost:3000/orders/order/id=:id<a>
+- DELETE <a href="http://localhost:3000/orders/order/id=:id">http://localhost:3000/orders/order/id=:id<a>
+- GET <a href="http://localhost:3000/orders/order/id=:id">http://localhost:3000/orders/order/id=:id<a>
+- GET <a href="http://localhost:3000/orders/order/user=:id">http://localhost:3000/orders/order/user=:id<a>
+- GET <a href="http://localhost:3000/orders/user">http://localhost:3000/orders/user<a>
 
 
 #### Search
 
-GET <a href="http://localhost:3000/search/order/dateR=:dateRent">http://localhost:3000/users/order/dateR=:dateRent<a>
-GET <a href="http://localhost:3000/search/order/dateA=:dateArrival">http://localhost:3000/users/order/dateA=:dateArrival<a>
-GET <a href="http://localhost:3000/search/order/movie=:title">http://localhost:3000/users/order/movie=:title<a>
+- GET <a href="http://localhost:3000/search/order/dateR=:dateRent">http://localhost:3000/users/order/dateR=:dateRent<a>
+- GET <a href="http://localhost:3000/search/order/dateA=:dateArrival">http://localhost:3000/users/order/dateA=:dateArrival<a>
+- GET <a href="http://localhost:3000/search/order/movie=:title">http://localhost:3000/users/order/movie=:title<a>
 
 
 #### Users
 
-POST <a href="http://localhost:3000/users/register">http://localhost:3000/users/register<a>
-POST <a href="http://localhost:3000/users/login">http://localhost:3000/users/login<a>
-GET <a href="http://localhost:3000/users/logout">http://localhost:3000/users/logout<a>
-GET <a href="http://localhost:3000/users/info">http://localhost:3000/users/info<a>
-PUT <a href="http://localhost:3000/users/update">http://localhost:3000/users/update<a>
-DELETE <a href="http://localhost:3000/users/delete/id=:id">http://localhost:3000/users/delete/id=:id<a>
-GET <a href="http://localhost:3000/users/info/all">http://localhost:3000/users/info/all<a>
-GET <a href="http://localhost:3000/users/info/id=:id">http://localhost:3000/users/info/id=:id<a>
-GET <a href="http://localhost:3000/users/info/username=:username">http://localhost:3000/users/info/username=:username<a>
-GET <a href="http://localhost:3000/users/order/">http://localhost:3000/users/order/<a>
-GET <a href="http://localhost:3000/users/order/email=:email">http://localhost:3000/users/order/email=:email<a>
-GET <a href="http://localhost:3000/users/order/orderDate=:id">http://localhost:3000/users/order/orderDate=:id<a>
-GET <a href="http://localhost:3000/users/order/id=:id">http://localhost:3000/users/order/id=:id<a>
+- POST <a href="http://localhost:3000/users/register">http://localhost:3000/users/register<a>
+- POST <a href="http://localhost:3000/users/login">http://localhost:3000/users/login<a>
+- GET <a href="http://localhost:3000/users/logout">http://localhost:3000/users/logout<a>
+- GET <a href="http://localhost:3000/users/info">http://localhost:3000/users/info<a>
+- PUT <a href="http://localhost:3000/users/update">http://localhost:3000/users/update<a>
+- DELETE <a href="http://localhost:3000/users/delete/id=:id">http://localhost:3000/users/delete/id=:id<a>
+- GET <a href="http://localhost:3000/users/info/all">http://localhost:3000/users/info/all<a>
+- GET <a href="http://localhost:3000/users/info/id=:id">http://localhost:3000/users/info/id=:id<a>
+- GET <a href="http://localhost:3000/users/info/username=:username">http://localhost:3000/users/info/username=:username<a>
+- GET <a href="http://localhost:3000/users/order/">http://localhost:3000/users/order/<a>
+- GET <a href="http://localhost:3000/users/order/email=:email">http://localhost:3000/users/order/email=:email<a>
+- GET <a href="http://localhost:3000/users/order/orderDate=:id">http://localhost:3000/users/order/orderDate=:id<a>
+- GET <a href="http://localhost:3000/users/order/id=:id">http://localhost:3000/users/order/id=:id<a>
   
 
 ### Seeders
