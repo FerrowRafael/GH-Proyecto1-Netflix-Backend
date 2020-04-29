@@ -441,6 +441,8 @@ Obtendremos el siguiente JSON
 ## Author 👨🏼‍💻 
 
 * **Rafael Fernández Gómez** - [FerrowRafael](https://github.com/FerrowRafael)
+* **Daniel Vazquez Guerra** - [danielvazquezguerra](https://github.com/danielvazquezguerra)
+
 
 ## Base de Datos
 
