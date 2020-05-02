@@ -23,7 +23,7 @@ const UserController = {
     // MOVIES BY MOVIE ID (WITH GENRE AND ACTORS)
     MoviesById(req, res){
         let { id } = req.params;
-        Movie.findAll({
+        Movie.findOne({
             where: { id },
             include: [Genre, Actors],
             attributes: { exclude: ['createdAt', 'updatedAt'] },   

@@ -19,7 +19,7 @@ const GenreController = {
     // GENRE BY ID (WITH MOVIE)
     GenresById(req, res){
         let { id } = req.params;
-        Genre.findAll({
+        Genre.findOne({
             attributes: { exclude: ['createdAt', 'updatedAt'] },
             where: { id },           
                 include: {
