@@ -51,7 +51,7 @@ const OrderController = {
     // ORDER CREATE
     async OrderCreate(req, res){
         try{
-            const order = Order.create({
+            const order = await Order.create({
                 dateRent: req.body.dateArrival,
                 dateArrival: req.body.dateArrival,
                 daysRent: req.body.daysRent,
@@ -60,10 +60,10 @@ const OrderController = {
                 UserId: req.body.UserId, 
                 MovieId: req.body.MovieId
             })
-            res.status(201).send({message: 'Pedido realizado con exito'}, order);  
+            res.status(201).send({message: 'Pedido realizado con exito', order});  
         }
         catch{
-            res.status(500).send({message: 'Se ha producido un error al realizar el pedido'})
+            res.status(401).send({message: 'Se ha producido un error al realizar el pedido'})
         }
     },
 

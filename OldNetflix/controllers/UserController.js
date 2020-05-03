@@ -14,26 +14,19 @@ const UserController = {
     // 1 REGISTER
     async register(req, res) { 
         try {
-            // req.body.role = "user"; //Ponemos en la db por defecto user para que cualquiera no pueda ponerse Admin
+            req.body.role = "user"; //Ponemos en la db por defecto user para que cualquiera no pueda ponerse Admin
             isValidPassword(req.body.password);
             req.body.password = await hashPassword(req.body.password);
             const user = await User.create(req.body);
             res
             .status(201)
             .send({
-                user: user,
-                message: 'Usuario creado satisfactoriamente'
+                message: 'Usuario creado satisfactoriamente', user
             });
         } 
         
         catch (error) {
             console.log(error)
-            res
-            .status(500)
-            .send({
-                message: 'There was a problem trying to sign up'
-            })
-
             // if (error.message === 'invalidPasswordError') {
             //     return res.status(400).json({
             //       message: 'Contraseña incorrecta',
@@ -54,7 +47,7 @@ const UserController = {
             //   }
 
             res.status(500).send({
-                message: 'Ha habido un problema al tratar de registrar el usuario'
+                message: 'Ha habido un problema al tratar de registrar el usuario', user
             })
         }
     },
@@ -275,6 +268,27 @@ const UserController = {
                         include: Actors
                     }         
                 }    
+            ],
+            attributes: { exclude: ['createdAt', 'updatedAt']}         
+        })
+            .then(data => {
+                res.status(200);
+                res.json(data);
+            })
+            .catch(err => {
+                res.status(500);
+                res.send("No existe ningun usuario con ese nombre")
+                res.json(`"error": ${err}`);
+            });
+    },
+
+    UserByEmail(req, res){
+        let { email } = req.params;
+        User.findOne({ 
+            where: { email },
+            include: [ 
+                { model: City },
+                { model: Order}    
             ],
             attributes: { exclude: ['createdAt', 'updatedAt']}         
         })

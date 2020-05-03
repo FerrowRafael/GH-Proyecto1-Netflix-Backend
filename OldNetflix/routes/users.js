@@ -15,6 +15,7 @@ router.delete('/delete/id=:id', authentication, isAdmin, UserController.UserDele
 router.get('/info/all', authentication, isAdmin, UserController.UsersAll); // 7 ALL USERS **Falta añadir isAdmin
 router.get('/info/id=:id', authentication, isAdmin, UserController.UserById); // 8 USER BY ID xd
 router.get('/info/username=:username', authentication, isAdmin, UserController.UserByName); // 9 USER BY USERNAME xd
+router.get('/info/email=:email', authentication, isAdmin, UserController.UserByEmail); // 9 USER BY EMAIL xd
 
 // ORDERS
 router.get('/order/', authentication, isAdmin, UserController.UsersOrdersAll); // 10 1.5 ALL A USER ORDERS xd
